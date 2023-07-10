@@ -1,0 +1,70 @@
+{
+  "actions": {
+    "cancel": "Annuler",
+    "changeLanguage": "Changer la langue",
+    "createOption": "Créer « {{name}} »",
+    "delete": "Supprimer",
+    "deleteConfirm": "Supprimer?",
+    "ingredient": { "new": "Nouvel ingrédient" },
+    "list": { "showCheckedsFirst": "Afficher les cochés en premier" },
+    "login": "Connectez-vous",
+    "logout": "Déconnexion",
+    "logoutConfirm": "Déconnexion?",
+    "price": {
+      "addAnother": "Ajouter un autre prix",
+      "delete": "Supprimer le prix",
+      "save": "Économisez des prix",
+      "saveWithout": "Économisez sans prix"
+    },
+    "recipe": {
+      "new": "Nouvelle recette",
+      "selectRecipes": "Sélection de recettes"
+    },
+    "save": "Sauvegarder"
+  },
+  "common": {
+    "budget": "Budget",
+    "currency": "Monnaie",
+    "email": "Messagerie électronique",
+    "ingredient_one": "Ingrédient",
+    "ingredient_other": "Ingrédients",
+    "language": "Langue",
+    "list_one": "Liste",
+    "list_other": "Listes",
+    "name": "Nom",
+    "new": "Nouveau",
+    "ok": "D’accord",
+    "password": "Mot de passe",
+    "price": "Prix",
+    "quantity": "Quantité",
+    "quantityDescriptionOf": "Quantité / description de {{name}}",
+    "quantityOf": "Quantité de {{name}}",
+    "recipe_one": "Recette",
+    "recipe_other": "Recettes",
+    "recipesCount_one": "{{count}} recette",
+    "recipesCount_other": "{{count}} recettes"
+  },
+  "list": {
+    "clearAllChecks": "Effacer toutes les vérifications",
+    "confirmClearAllChecks": "Effacer toutes les vérifications ?",
+    "editList": "Modifier la liste",
+    "filtersAndOrder": "Filtres et ordination",
+    "ingredientsOnListDescription": "Les ingrédients choisis apparaîtront dans la liste de courses même s’ils ne sont dans aucune recette",
+    "quantityForRecipe": "{{quantity}} pour {{recipe}}",
+    "recipesOnListDescription": "Les ingrédients des recettes choisies apparaîtront dans la liste de courses",
+    "value": {
+      "availableBudget": "<strong>{{availableValue, currency}}</strong> disponibles",
+      "ingredient": {
+        "itemPricePerUnit": "{{quantity}} <small>x</small> <strong>{{pricePerUnit, currency}}</strong>"
+      },
+      "usedOfBudget": "<strongUsed>{{usedValue, currency}}</strongUsed> utilisé à partir de <strong>{{budgetValue,currency}}</strong>"
+    }
+  },
+  "recipes": {
+    "inputDisplay": {
+      "ingredientsHelperText": "Choisissez les ingrédients nécessaires à la réalisation de la recette. Le montant de chacun peut être informé ci-dessous.",
+      "quantityHelperText": "(Facultativement) entrez la quantité de chaque ingrédient.<br/><small>Ce montant apparaîtra sur la liste d’épicerie</small>"
+    },
+    "onList": "sur la liste"
+  }
+}

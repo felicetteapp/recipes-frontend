@@ -1,0 +1,96 @@
+{
+  "actions": {
+    "cancel": "Cancel",
+    "changeGroup": "Change group",
+    "changeLanguage": "Change language",
+    "createGroup": "Create group",
+    "createOption": "Create \"{{name}}\"",
+    "createUser": "Create user",
+    "editGroup": "Edit group",
+    "delete": "Delete",
+    "deleteConfirm": "Delete?",
+    "ingredient": {
+      "new": "New ingredient"
+    },
+    "list": {
+      "showCheckedsFirst": "Show checkeds first"
+    },
+    "login": "Login",
+    "logout": "Logout",
+    "logoutConfirm": "Logout?",
+    "price": {
+      "addAnother": "Add another price",
+      "delete": "Delete price",
+      "save": "Save prices",
+      "saveWithout": "Save without price"
+    },
+    "recipe": {
+      "new": "New recipe",
+      "selectRecipes": "Select recipes"
+    },
+    "save": "Save",
+    "send": "Send"
+  },
+  "common": {
+    "budget": "Budget",
+    "currency": "Currency",
+    "email": "Email",
+    "ingredient_one": "Ingredient",
+    "ingredient_other": "Ingredients",
+    "invite_one": "Invite",
+    "invite_other": "Invites",
+    "language": "Language",
+    "list_one": "List",
+    "list_other": "Lists",
+    "name": "Name",
+    "new": "New",
+    "ok": "Ok",
+    "password": "Password",
+    "passwordConfirm": "Password confirm",
+    "price": "Price",
+    "quantity": "Quantity",
+    "quantityDescriptionOf": "Quantity / descrption of {{name}}",
+    "quantityOf": "Quantity of {{name}}",
+    "recipe_one": "Recipe",
+    "recipe_other": "Recipes",
+    "recipesCount_one": "{{count}} recipe",
+    "recipesCount_other": "{{count}} recipes"
+  },
+  "group": {
+    "createGroupDescription": "Create a new group to start creating recipes and shopping lists. You can invite other members, or acept invites to another groups anytime.",
+    "groupName": "Group <strong>{{name}}</strong>",
+    "myFirstGroup": "My first group"
+  },
+  "invite": {
+    "acceptInviteDescription": "If someone invited you to an existing group you can accept it here",
+    "inviteCount_one": "{{count}} invite",
+    "inviteCount_other": "{{count}} invites",
+    "inviteUserDescription": "Invite user to join your group and share your recipes, ingredients and list",
+    "newInvite": "New invite",
+    "sentInvite_one": "Sent invite",
+    "sentInvite_other": "Sent invites"
+  },
+  "list": {
+    "clearAllChecks": "Clear all checks",
+    "confirmClearAllChecks": "Clear all checks?",
+    "editList": "Edit list",
+    "filtersAndOrder": "Filters and ordination",
+    "ingredientsOnListDescription": "The chosen ingredients will appear in the shopping list even if they are not in any recipe",
+    "quantityForRecipe": "{{quantity}} for {{recipe}}",
+    "recipesOnListDescription": "The ingredients of the chosen recipes will appear in the shopping list",
+    "value": {
+      "availableBudget": "<strong>{{availableValue, currency}}</strong> available",
+      "ingredient": {
+        "itemPricePerUnit": "{{quantity}} <small>x</small> <strong>{{pricePerUnit, currency}}</strong>"
+      },
+      "usedOfBudget": "<strongUsed>{{usedValue, currency}}</strongUsed> used from <strong>{{budgetValue,currency}}</strong>"
+    }
+  },
+  "recipes": {
+    "inputDisplay": {
+      "ingredientsHelperText": "Choose the ingredients needed to make the recipe. The amount of each can be informed below.",
+      "quantityHelperText": "(Optionally) enter the amount of each ingredient.<br/><small>This amount will appear on the grocery shopping list</small>"
+    },
+    "onList": "on list"
+  }
+}
