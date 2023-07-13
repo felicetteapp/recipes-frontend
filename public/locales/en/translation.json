@@ -6,9 +6,9 @@
     "createGroup": "Create group",
     "createOption": "Create \"{{name}}\"",
     "createUser": "Create user",
-    "editGroup": "Edit group",
     "delete": "Delete",
     "deleteConfirm": "Delete?",
+    "editGroup": "Edit group",
     "ingredient": {
       "new": "New ingredient"
     },
