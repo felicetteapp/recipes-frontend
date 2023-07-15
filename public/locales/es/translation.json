@@ -1,96 +1,96 @@
 {
- "actions": {
-  "cancel": "Cancelar",
-  "changeGroup": "Cambiar de grupo",
-  "changeLanguage": "Cambiar idioma",
-  "createGroup": "Crear grupo",
-  "createOption": "Crear \"{{name}}\"",
-  "createUser": "Crear usuario",
-  "delete": "Borrar",
-  "deleteConfirm": "¿Borrar?",
-  "editGroup": "Editar grupo",
-  "ingredient": {
-   "new": "Nuevo ingrediente"
+  "actions": {
+    "cancel": "Cancelar",
+    "changeGroup": "Cambiar de grupo",
+    "changeLanguage": "Cambiar idioma",
+    "createGroup": "Crear grupo",
+    "createOption": "Crear \"{{name}}\"",
+    "createUser": "Crear usuario",
+    "delete": "Borrar",
+    "deleteConfirm": "¿Borrar?",
+    "editGroup": "Editar grupo",
+    "ingredient": {
+      "new": "Nuevo ingrediente"
+    },
+    "list": {
+      "showCheckedsFirst": "Mostrar marcados primero"
+    },
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "logoutConfirm": "¿Cerrar sesión?",
+    "price": {
+      "addAnother": "Añadir otro precio",
+      "delete": "Eliminar precio",
+      "save": "Guardar precios",
+      "saveWithout": "Guardar sin precio"
+    },
+    "recipe": {
+      "new": "Nueva receta",
+      "selectRecipes": "Seleccionar recetas"
+    },
+    "save": "Guardar",
+    "send": "Enviar"
+  },
+  "common": {
+    "budget": "Presupuesto",
+    "currency": "Divisa",
+    "email": "Correo electrónico",
+    "ingredient_one": "Ingrediente",
+    "ingredient_other": "Ingredientes",
+    "invite_one": "Invitación",
+    "invite_other": "Invitaciones",
+    "language": "Idioma",
+    "list_one": "Lista",
+    "list_other": "Listas",
+    "name": "Nombre",
+    "new": "Nuevo",
+    "ok": "Ok",
+    "password": "Contraseña",
+    "passwordConfirm": "Confirmación de contraseña",
+    "price": "Precio",
+    "quantity": "Cantidad",
+    "quantityDescriptionOf": "Cantidad / descripción de {{name}}",
+    "quantityOf": "Cantidad de {{name}}",
+    "recipe_one": "Receta",
+    "recipe_other": "Recetas",
+    "recipesCount_one": "{{count}} receta",
+    "recipesCount_other": "{{count}} recetas"
+  },
+  "group": {
+    "createGroupDescription": "Crea un nuevo grupo para empezar a crear recetas y listas de la compra. Puede invitar a otros miembros o aceptar invitaciones a otros grupos en cualquier momento.",
+    "groupName": "Grupo <strong>{{name}}</strong>",
+    "myFirstGroup": "Mi primer grupo"
+  },
+  "invite": {
+    "acceptInviteDescription": "Si alguien te invitó a un grupo existente, puedes aceptarlo aquí",
+    "inviteCount_one": "{{count}} invitación",
+    "inviteCount_other": "{{count}} invitaciones",
+    "inviteUserDescription": "Invita a un usuario a unirse a tu grupo y compartir tus recetas, ingredientes y lista",
+    "newInvite": "Nueva invitación",
+    "sentInvite_one": "Invitación enviada",
+    "sentInvite_other": "Invitaciones enviadas"
   },
   "list": {
-   "showCheckedsFirst": "Mostrar marcados primero"
+    "clearAllChecks": "Borrar todas las comprobaciones",
+    "confirmClearAllChecks": "¿Borrar todos los cheques?",
+    "editList": "Editar lista",
+    "filtersAndOrder": "Filtros y ordenación",
+    "ingredientsOnListDescription": "Los ingredientes elegidos aparecerán en la lista de la compra aunque no estén en ninguna receta",
+    "quantityForRecipe": "{{quantity}} para {{recipe}}",
+    "recipesOnListDescription": "Los ingredientes de las recetas elegidas aparecerán en la lista de la compra",
+    "value": {
+      "availableBudget": "<strong>{{availableValue, currency}}</strong> disponibles",
+      "ingredient": {
+        "itemPricePerUnit": "{{quantity}} <small>x</small> <strong>{{pricePerUnit, currency}}</strong>"
+      },
+      "usedOfBudget": "<strongUsed>{{usedValue, currency}}</strongUsed> utilizado de <strong>{{budgetValue,currency}}</strong>"
+    }
   },
-  "login": "Iniciar sesión",
-  "logout": "Cerrar sesión",
-  "logoutConfirm": "¿Cerrar sesión?",
-  "price": {
-   "addAnother": "Añadir otro precio",
-   "delete": "Eliminar precio",
-   "save": "Guardar precios",
-   "saveWithout": "Guardar sin precio"
-  },
-  "recipe": {
-   "new": "Nueva receta",
-   "selectRecipes": "Seleccionar recetas"
-  },
-  "save": "Guardar",
-  "send": "Enviar"
- },
- "common": {
-  "budget": "Presupuesto",
-  "currency": "Divisa",
-  "email": "Correo electrónico",
-  "ingredient_one": "Ingrediente",
-  "ingredient_other": "Ingredientes",
-  "invite_one": "Invitar",
-  "invite_other": "Invita",
-  "language": "Idioma",
-  "list_one": "Lista",
-  "list_other": "Listas",
-  "name": "Nombre",
-  "new": "Nuevo",
-  "ok": "Ok",
-  "password": "Contraseña",
-  "passwordConfirm": "Confirmación de contraseña",
-  "price": "Precio",
-  "quantity": "Cantidad",
-  "quantityDescriptionOf": "Cantidad / descripción de {{name}}",
-  "quantityOf": "Cantidad de {{name}}",
-  "recipe_one": "Receta",
-  "recipe_other": "Recetas",
-  "recipesCount_one": "{{count}} receta",
-  "recipesCount_other": "{{count}} recetas"
- },
- "group": {
-  "createGroupDescription": "Crea un nuevo grupo para empezar a crear recetas y listas de la compra. Puede invitar a otros miembros o aceptar invitaciones a otros grupos en cualquier momento.",
-  "groupName": "Grupo <strong>{{name}}</strong>",
-  "myFirstGroup": "Mi primer grupo"
- },
- "invite": {
-  "acceptInviteDescription": "Si alguien te invitó a un grupo existente, puedes aceptarlo aquí",
-  "inviteCount_one": "{{count}} invitar",
-  "inviteCount_other": "{{count}} invitaciones",
-  "inviteUserDescription": "Invita al usuario a unirse a tu grupo y compartir tus recetas, ingredientes y lista",
-  "newInvite": "Nueva invitación",
-  "sentInvite_one": "Invitación enviada",
-  "sentInvite_other": "Invitaciones enviadas"
- },
- "list": {
-  "clearAllChecks": "Borrar todas las comprobaciones",
-  "confirmClearAllChecks": "¿Borrar todos los cheques?",
-  "editList": "Editar lista",
-  "filtersAndOrder": "Filtros y ordenación",
-  "ingredientsOnListDescription": "Los ingredientes elegidos aparecerán en la lista de la compra aunque no estén en ninguna receta",
-  "quantityForRecipe": "{{quantity}} para {{recipe}}",
-  "recipesOnListDescription": "Los ingredientes de las recetas elegidas aparecerán en la lista de la compra",
-  "value": {
-   "availableBudget": "<strong>{{availableValue, currency}}</strong> disponibles",
-   "ingredient": {
-    "itemPricePerUnit": "{{quantity}} <small>x</small> <strong>{{pricePerUnit, currency}}</strong>"
-   },
-   "usedOfBudget": "<strongUsed>{{usedValue, currency}}</strongUsed> utilizado de <strong>{{budgetValue,currency}}</strong>"
+  "recipes": {
+    "inputDisplay": {
+      "ingredientsHelperText": "Elige los ingredientes necesarios para hacer la receta. La cantidad de cada uno se puede informar a continuación.",
+      "quantityHelperText": "(Opcionalmente) introduzca la cantidad de cada ingrediente.<br/><small>Esta cantidad aparecerá en la lista de compras</small>"
+    },
+    "onList": "en la lista"
   }
- },
- "recipes": {
-  "inputDisplay": {
-   "ingredientsHelperText": "Elige los ingredientes necesarios para hacer la receta. La cantidad de cada uno se puede informar a continuación.",
-   "quantityHelperText": "(Opcionalmente) introduzca la cantidad de cada ingrediente.<br/><small>Esta cantidad aparecerá en la lista de compras</small>"
-  },
-  "onList": "en la lista"
- }
 }
