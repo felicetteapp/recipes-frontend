@@ -78,6 +78,9 @@
     "ingredientsOnListDescription": "The chosen ingredients will appear in the shopping list even if they are not in any recipe",
     "quantityForRecipe": "{{quantity}} for {{recipe}}",
     "recipesOnListDescription": "The ingredients of the chosen recipes will appear in the shopping list",
+    "alsoNeededFor": "Also {{recipes}}",
+    "ingredientFor": "for {{name}}",
+    "withoutRecipes": "Without recipes",
     "value": {
       "availableBudget": "<strong>{{availableValue, currency}}</strong> available",
       "ingredient": {
