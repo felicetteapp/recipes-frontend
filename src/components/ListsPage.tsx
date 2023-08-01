@@ -17,6 +17,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  ListSubheader,
   MenuItem,
   OutlinedInput,
   Paper,
@@ -25,6 +26,8 @@ import {
   Stack,
   Switch,
   TextField,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -239,8 +242,6 @@ const ListsPageBase = () => {
       <Paper
         elevation={1}
         sx={{
-          //          background: theme.palette.grey[900],
-          //          background: theme.palette.background.paper,
           width: "100%",
           padding: 2,
           textAlign: "center",
@@ -327,13 +328,17 @@ const IngredientsListFromRecipesBase = () => {
     filters,
   } = useDataContext();
   const { id: groupId } = useGroup();
-  const { t } = useTranslation();
-
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
   const [modalOpen, setModalOpen] = useState(false);
-
   const [editingIngredient, setEditingIngredient] = useState<
     IIngredient | false
   >(false);
+  const [listDisplayType, setListDisplayType] = useState<
+    "ingredients" | "recipes"
+  >("ingredients");
 
   const handleModalOnClose = useCallback(() => {
     setEditingIngredient(false);
@@ -445,7 +450,10 @@ const IngredientsListFromRecipesBase = () => {
     });
 
     items.sort((itemA, itemB) => {
-      return itemA.ingredient.name.localeCompare(itemB.ingredient.name);
+      return itemA.ingredient.name.localeCompare(
+        itemB.ingredient.name,
+        language
+      );
     });
 
     if (filters.showCheckedsFirst) {
@@ -464,136 +472,373 @@ const IngredientsListFromRecipesBase = () => {
     }
 
     return items;
-  }, [checkedIngredients, ingredientsFormated, filters, t]);
+  }, [
+    ingredientsFormated,
+    filters.showCheckedsFirst,
+    t,
+    language,
+    checkedIngredients,
+  ]);
+
+  const sortedRecies = useMemo(() => {
+    const list = [...recipes];
+
+    return list.sort((a, b) => a.name.localeCompare(b.name));
+  }, [recipes]);
 
   return (
     <>
-      <Button
-        onClick={() => setModalFilterIsOpen(true)}
-        color="secondary"
-        startIcon={<Icon>tune</Icon>}
-        variant="outlined"
-      >
-        {t("list.filtersAndOrder")}
-      </Button>
-      <List>
-        {actualTextsToDisplays.map(({ ingredient, descriptions }) => {
-          const thisItemPrices = ingredientsPrices[ingredient.id];
+      <Stack direction="row" spacing={1}>
+        <Button
+          onClick={() => setModalFilterIsOpen(true)}
+          color="secondary"
+          startIcon={<Icon>tune</Icon>}
+          variant="outlined"
+        >
+          {t("list.filtersAndOrder")}
+        </Button>
+        <ToggleButtonGroup
+          exclusive
+          value={listDisplayType}
+          onChange={(_, value) => {
+            console.log(value);
+            if (value !== null) {
+              setListDisplayType(value);
+            }
+          }}
+          aria-label="text formatting"
+        >
+          <ToggleButton value="recipes">
+            <Icon>menu_book</Icon>
+          </ToggleButton>
+          <ToggleButton value="ingredients">
+            <Icon>list</Icon>
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </Stack>
+      {listDisplayType === "recipes" ? (
+        <List dense>
+          {[
+            ...sortedRecies,
+            {
+              id: "others",
+              name: t("list.withoutRecipes"),
+              ingredients: ingredients.map((i) => ({
+                ingredient: i.ingredient.id,
+                quantity: i.quantityDescription,
+              })),
+            },
+          ].map((recipe) => {
+            return (
+              <>
+                <ListSubheader disableGutters disableSticky color="primary">
+                  {recipe.name}
+                </ListSubheader>
+                {recipe.ingredients.map((ingredient) => {
+                  const thisItemPrices =
+                    ingredientsPrices[ingredient.ingredient];
+                  const thisIngredient = dataIngredients.find(
+                    (i) => ingredient.ingredient === i.id
+                  );
 
-          return (
-            <ListItem
-              key={`list_ingredient_${ingredient.id}`}
-              sx={{ paddingRight: 0 }}
-              disableGutters
-            >
-              <ListItemIcon>
-                <Checkbox
-                  edge="start"
-                  checked={checkedIngredients.indexOf(ingredient.id) > -1}
-                  tabIndex={-1}
-                  disableRipple
-                  onChange={async (e) => {
-                    if (e.currentTarget.checked) {
-                      handleOpenModal(ingredient);
-                      if (!groupId) {
-                        throw new Error("missing groupId");
+                  const anotherRecipesThatUsesThisIngredient = recipes.filter(
+                    (r) =>
+                      r.id !== recipe.id &&
+                      r.ingredients.some(
+                        (i) => i.ingredient === ingredient.ingredient
+                      )
+                  );
+
+                  const anotherRecipesTexts =
+                    anotherRecipesThatUsesThisIngredient.map((recipe) => {
+                      const quantity = recipe.ingredients.find(
+                        (i) => i.ingredient === ingredient.ingredient
+                      )?.quantity;
+                      if (!quantity) {
+                        return t("list.ingredientFor", { name: recipe.name });
                       }
-                      await updateGroup(
-                        groupId,
-                        "checkedIngredients",
-                        arrayUnion(ingredient.id)
-                      );
-                    } else {
-                      if (!groupId) {
-                        throw new Error("missing groupId");
+                      return t("list.quantityForRecipe", {
+                        quantity,
+                        recipe: recipe.name,
+                      });
+                    });
+                  return (
+                    <ListItem
+                      disableGutters
+                      key={`item-${recipe.id}-${ingredient.ingredient}`}
+                    >
+                      <ListItemIcon>
+                        <Checkbox
+                          edge="start"
+                          checked={
+                            checkedIngredients.indexOf(ingredient.ingredient) >
+                            -1
+                          }
+                          tabIndex={-1}
+                          disableRipple
+                          onChange={async (e) => {
+                            if (!thisIngredient) {
+                              return;
+                            }
+                            if (e.currentTarget.checked) {
+                              handleOpenModal(thisIngredient);
+                              if (!groupId) {
+                                throw new Error("missing groupId");
+                              }
+                              await updateGroup(
+                                groupId,
+                                "checkedIngredients",
+                                arrayUnion(ingredient.ingredient)
+                              );
+                            } else {
+                              if (!groupId) {
+                                throw new Error("missing groupId");
+                              }
+                              await updateGroup(
+                                groupId,
+                                "checkedIngredients",
+                                arrayRemove(ingredient.ingredient)
+                              );
+                            }
+                          }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={`${ingredient.quantity} ${
+                          dataIngredients.find(
+                            (i) => i.id === ingredient.ingredient
+                          )?.name
+                        }`}
+                        secondary={
+                          !anotherRecipesThatUsesThisIngredient.length
+                            ? undefined
+                            : t("list.alsoNeededFor", {
+                                recipes: anotherRecipesTexts.join(", "),
+                              })
+                        }
+                        sx={{
+                          flex: 1,
+                        }}
+                      />
+                      <Box sx={{ textAlign: "right" }}>
+                        {!thisItemPrices ||
+                        checkedIngredients.indexOf(ingredient.ingredient) ===
+                          -1 ? null : (
+                          <Stack
+                            onClick={() => {
+                              if (!thisIngredient) {
+                                return;
+                              }
+                              handleOpenModal(thisIngredient);
+                            }}
+                            sx={{ marginLeft: 3, marginRight: 1 }}
+                          >
+                            <Typography
+                              variant="body1"
+                              color="error"
+                              fontWeight={500}
+                            >
+                              {t("{{value,currency}}", {
+                                currency,
+                                value: thisItemPrices.reduce(
+                                  (prev, thisItem) =>
+                                    prev + thisItem.q * thisItem.u,
+                                  0
+                                ),
+                              })}
+                            </Typography>
+                            <Stack
+                              direction={"row"}
+                              spacing={1}
+                              justifyContent={"flex-end"}
+                            >
+                              {thisItemPrices.map(({ q, u }) => (
+                                <Typography
+                                  variant="body2"
+                                  color="grey.300"
+                                  fontSize={10}
+                                  key={`item_price_${q}_${u}`}
+                                >
+                                  <Trans
+                                    i18nKey={
+                                      "list.value.ingredient.itemPricePerUnit"
+                                    }
+                                    values={{
+                                      quantity: q,
+                                      currency,
+                                      pricePerUnit: u,
+                                    }}
+                                    components={{
+                                      small: (
+                                        <Typography
+                                          color="grey.400"
+                                          component="small"
+                                          fontSize="inherit"
+                                        />
+                                      ),
+                                      strong: (
+                                        <Typography
+                                          fontWeight="bolder"
+                                          color="primary"
+                                          component="strong"
+                                          fontSize="inherit"
+                                        />
+                                      ),
+                                    }}
+                                  />
+                                </Typography>
+                              ))}
+                            </Stack>
+                          </Stack>
+                        )}
+
+                        {!thisItemPrices &&
+                          checkedIngredients.indexOf(ingredient.ingredient) >
+                            -1 && (
+                            <IconButton
+                              color="warning"
+                              onClick={() => {
+                                if (!thisIngredient) {
+                                  return;
+                                }
+                                handleOpenModal(thisIngredient);
+                              }}
+                            >
+                              <Icon>edit</Icon>
+                            </IconButton>
+                          )}
+                      </Box>
+                    </ListItem>
+                  );
+                })}
+              </>
+            );
+          })}
+        </List>
+      ) : (
+        <List>
+          {actualTextsToDisplays.map(({ ingredient, descriptions }) => {
+            const thisItemPrices = ingredientsPrices[ingredient.id];
+
+            return (
+              <ListItem
+                key={`list_ingredient_${ingredient.id}`}
+                sx={{ paddingRight: 0 }}
+                disableGutters
+              >
+                <ListItemIcon>
+                  <Checkbox
+                    edge="start"
+                    checked={checkedIngredients.indexOf(ingredient.id) > -1}
+                    tabIndex={-1}
+                    disableRipple
+                    onChange={async (e) => {
+                      if (e.currentTarget.checked) {
+                        handleOpenModal(ingredient);
+                        if (!groupId) {
+                          throw new Error("missing groupId");
+                        }
+                        await updateGroup(
+                          groupId,
+                          "checkedIngredients",
+                          arrayUnion(ingredient.id)
+                        );
+                      } else {
+                        if (!groupId) {
+                          throw new Error("missing groupId");
+                        }
+                        await updateGroup(
+                          groupId,
+                          "checkedIngredients",
+                          arrayRemove(ingredient.id)
+                        );
                       }
-                      await updateGroup(
-                        groupId,
-                        "checkedIngredients",
-                        arrayRemove(ingredient.id)
-                      );
-                    }
-                  }}
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText
+                  primary={ingredient.name}
+                  secondary={descriptions.join(", ")}
+                  sx={{ flex: 1 }}
                 />
-              </ListItemIcon>
-              <ListItemText
-                primary={ingredient.name}
-                secondary={descriptions.join(" / ")}
-                sx={{ width: "100%" }}
-              />
-              <Box sx={{ width: "100%", textAlign: "right" }}>
-                {!thisItemPrices ||
-                checkedIngredients.indexOf(ingredient.id) === -1 ? null : (
-                  <Stack
-                    onClick={() => handleOpenModal(ingredient)}
-                    sx={{ marginLeft: 3, marginRight: 1 }}
-                  >
-                    <Typography variant="body1" color="error" fontWeight={500}>
-                      {t("{{value,currency}}", {
-                        currency,
-                        value: thisItemPrices.reduce(
-                          (prev, thisItem) => prev + thisItem.q * thisItem.u,
-                          0
-                        ),
-                      })}
-                    </Typography>
+                <Box sx={{ textAlign: "right" }}>
+                  {!thisItemPrices ||
+                  checkedIngredients.indexOf(ingredient.id) === -1 ? null : (
                     <Stack
-                      direction={"row"}
-                      spacing={1}
-                      justifyContent={"flex-end"}
-                    >
-                      {thisItemPrices.map(({ q, u }) => (
-                        <Typography
-                          variant="body2"
-                          color="grey.300"
-                          fontSize={10}
-                          key={`item_price_${q}_${u}`}
-                        >
-                          <Trans
-                            i18nKey={"list.value.ingredient.itemPricePerUnit"}
-                            values={{
-                              quantity: q,
-                              currency,
-                              pricePerUnit: u,
-                            }}
-                            components={{
-                              small: (
-                                <Typography
-                                  color="grey.400"
-                                  component="small"
-                                  fontSize="inherit"
-                                />
-                              ),
-                              strong: (
-                                <Typography
-                                  fontWeight="bolder"
-                                  color="primary"
-                                  component="strong"
-                                  fontSize="inherit"
-                                />
-                              ),
-                            }}
-                          />
-                        </Typography>
-                      ))}
-                    </Stack>
-                  </Stack>
-                )}
-
-                {!thisItemPrices &&
-                  checkedIngredients.indexOf(ingredient.id) > -1 && (
-                    <IconButton
-                      color="warning"
                       onClick={() => handleOpenModal(ingredient)}
+                      sx={{ marginLeft: 3, marginRight: 1 }}
                     >
-                      <Icon>edit</Icon>
-                    </IconButton>
+                      <Typography
+                        variant="body1"
+                        color="error"
+                        fontWeight={500}
+                      >
+                        {t("{{value,currency}}", {
+                          currency,
+                          value: thisItemPrices.reduce(
+                            (prev, thisItem) => prev + thisItem.q * thisItem.u,
+                            0
+                          ),
+                        })}
+                      </Typography>
+                      <Stack
+                        direction={"row"}
+                        spacing={1}
+                        justifyContent={"flex-end"}
+                      >
+                        {thisItemPrices.map(({ q, u }) => (
+                          <Typography
+                            variant="body2"
+                            color="grey.300"
+                            fontSize={10}
+                            key={`item_price_${q}_${u}`}
+                          >
+                            <Trans
+                              i18nKey={"list.value.ingredient.itemPricePerUnit"}
+                              values={{
+                                quantity: q,
+                                currency,
+                                pricePerUnit: u,
+                              }}
+                              components={{
+                                small: (
+                                  <Typography
+                                    color="grey.400"
+                                    component="small"
+                                    fontSize="inherit"
+                                  />
+                                ),
+                                strong: (
+                                  <Typography
+                                    fontWeight="bolder"
+                                    color="primary"
+                                    component="strong"
+                                    fontSize="inherit"
+                                  />
+                                ),
+                              }}
+                            />
+                          </Typography>
+                        ))}
+                      </Stack>
+                    </Stack>
                   )}
-              </Box>
-            </ListItem>
-          );
-        })}
-      </List>
+
+                  {!thisItemPrices &&
+                    checkedIngredients.indexOf(ingredient.id) > -1 && (
+                      <IconButton
+                        color="warning"
+                        onClick={() => handleOpenModal(ingredient)}
+                      >
+                        <Icon>edit</Icon>
+                      </IconButton>
+                    )}
+                </Box>
+              </ListItem>
+            );
+          })}
+        </List>
+      )}
 
       <Dialog
         fullScreen
