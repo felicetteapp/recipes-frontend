@@ -78,6 +78,9 @@
   "ingredientsOnListDescription": "Les ingrédients choisis apparaîtront dans la liste de courses même s’ils ne sont dans aucune recette",
   "quantityForRecipe": "{{quantity}} pour {{recipe}}",
   "recipesOnListDescription": "Les ingrédients des recettes choisies apparaîtront dans la liste de courses",
+  "alsoNeededFor": "Aussi {{recipes}}",
+  "ingredientFor": "pour {{name}}",
+  "withoutRecipes": "Sans recettes",
   "value": {
    "availableBudget": "<strong>{{availableValue, currency}}</strong> disponibles",
    "ingredient": {
