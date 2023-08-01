@@ -15,7 +15,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useDataContext } from "../context/DataContext";
 import { useCreate } from "../hooks/useCreate";
 import { useDelete } from "../hooks/useDelete";
@@ -126,7 +126,10 @@ const IngredientsPageBase = () => {
   const [ingredientToEdit, setIngredientToEdit] = useState<
     Partial<IIngredient> | false
   >(false);
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
   const { setTitle, clearState } = useAppStateContext();
 
   useEffect(() => {
@@ -136,6 +139,11 @@ const IngredientsPageBase = () => {
     };
   }, [clearState, ingredients.length, setTitle, t]);
 
+  const ingredientsSorted = useMemo(() => {
+    const list = [...ingredients];
+    return list.sort((a, b) => a.name.localeCompare(b.name, language));
+  }, [ingredients, language]);
+
   return (
     <>
       <Box sx={{ marginBottom: "75px" }}>
@@ -144,10 +152,9 @@ const IngredientsPageBase = () => {
         </Typography>
         <GroupNameSubHeader />
         <List>
-          {ingredients.map((item) => (
+          {ingredientsSorted.map((item) => (
             <ListItem key={item.id} disableGutters>
               <ListItemText primary={item.name} />
-
               <IconButton
                 color="warning"
                 sx={{ ml: 2 }}
