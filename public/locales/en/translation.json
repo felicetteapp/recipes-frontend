@@ -42,6 +42,7 @@
     "language": "Language",
     "list_one": "List",
     "list_other": "Lists",
+    "loading": "Loading",
     "name": "Name",
     "new": "New",
     "ok": "Ok",
@@ -71,23 +72,23 @@
     "sentInvite_other": "Sent invites"
   },
   "list": {
+    "alsoNeededFor": "Also {{recipes}}",
     "clearAllChecks": "Clear all checks",
     "confirmClearAllChecks": "Clear all checks?",
     "editList": "Edit list",
     "filtersAndOrder": "Filters and ordination",
+    "ingredientFor": "for {{name}}",
     "ingredientsOnListDescription": "The chosen ingredients will appear in the shopping list even if they are not in any recipe",
     "quantityForRecipe": "{{quantity}} for {{recipe}}",
     "recipesOnListDescription": "The ingredients of the chosen recipes will appear in the shopping list",
-    "alsoNeededFor": "Also {{recipes}}",
-    "ingredientFor": "for {{name}}",
-    "withoutRecipes": "Without recipes",
     "value": {
       "availableBudget": "<strong>{{availableValue, currency}}</strong> available",
       "ingredient": {
         "itemPricePerUnit": "{{quantity}} <small>x</small> <strong>{{pricePerUnit, currency}}</strong>"
       },
       "usedOfBudget": "<strongUsed>{{usedValue, currency}}</strongUsed> used from <strong>{{budgetValue,currency}}</strong>"
-    }
+    },
+    "withoutRecipes": "Without recipes"
   },
   "recipes": {
     "inputDisplay": {
