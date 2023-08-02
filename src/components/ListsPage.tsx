@@ -47,6 +47,7 @@ import { IRecipe } from "../interfaces/IRecipe";
 import { useGroup } from "../hooks/useGroup";
 import { updateGroup } from "../services/api/groups";
 import { GroupNameSubHeader } from "./GroupNameSubHeader";
+import { usePeristentState } from "../hooks/usePersistentState";
 
 const availableCurrencies = ["USD", "ARS", "BRL", "EUR"];
 
@@ -336,9 +337,10 @@ const IngredientsListFromRecipesBase = () => {
   const [editingIngredient, setEditingIngredient] = useState<
     IIngredient | false
   >(false);
-  const [listDisplayType, setListDisplayType] = useState<
+
+  const [listDisplayType, setListDisplayType] = usePeristentState<
     "ingredients" | "recipes"
-  >("ingredients");
+  >("@list.listDisplayType", "ingredients");
 
   const handleModalOnClose = useCallback(() => {
     setEditingIngredient(false);
@@ -531,7 +533,12 @@ const IngredientsListFromRecipesBase = () => {
           ].map((recipe) => {
             return (
               <>
-                <ListSubheader disableGutters disableSticky color="primary">
+                <ListSubheader
+                  disableGutters
+                  disableSticky
+                  color="primary"
+                  key={`recipe-${recipe.id}`}
+                >
                   {recipe.name}
                 </ListSubheader>
                 {recipe.ingredients.map((ingredient) => {
