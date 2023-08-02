@@ -17,6 +17,7 @@ import { RecipesPage } from "./RecipesPage";
 import { useTranslation } from "react-i18next";
 import { useAppStateContext } from "../context/AppStateContext";
 import { MainMenu } from "./MainMenu";
+import { usePeristentState } from "../hooks/usePersistentState";
 
 const enum tabsEnum {
   Recipes = "recipes",
@@ -31,7 +32,10 @@ const TABS = {
 };
 
 const LoggedPageBase = () => {
-  const [currentTab, setCurrentTab] = useState(tabsEnum.List);
+  const [currentTab, setCurrentTab] = usePeristentState(
+    "@loggedPage.currentTab",
+    tabsEnum.List
+  );
   const { t } = useTranslation();
 
   const Content = TABS[currentTab];

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+type NonUndefined<T> = T extends undefined ? never : T;
 
 export const usePeristentState = <T>(key: string, defaultValue: T) => {
   const [value, setValue] = useState<T>();
@@ -28,5 +29,8 @@ export const usePeristentState = <T>(key: string, defaultValue: T) => {
     } catch (e) {}
   }, [key, defaultValue]);
 
-  return [value, setValue] as [typeof value, typeof setValue];
+  return [value === undefined ? defaultValue : value, setValue] as [
+    NonUndefined<typeof value>,
+    typeof setValue
+  ];
 };
