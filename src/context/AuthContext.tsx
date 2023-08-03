@@ -9,9 +9,7 @@ import {
 } from "react";
 import { Unsubscribe, User, getAuth, onAuthStateChanged } from "firebase/auth";
 import { firebaseApp } from "../services/firebase";
-import { LoginForm } from "../components/LoginForm";
 import { useFetchUser } from "../hooks/useFetchUser";
-import { FullScreenSpinner } from "../components/FullScreenSpinner";
 
 const AuthContext = createContext<{ user: false | User; loading: boolean }>({
   user: false,
@@ -74,13 +72,7 @@ const AuthContextProviderBase = ({ children }: PropsWithChildren) => {
 
   return (
     <AuthContext.Provider value={{ user, loading: loading || fetching }}>
-      {loading || fetching ? (
-        <FullScreenSpinner />
-      ) : user ? (
-        children
-      ) : (
-        <LoginForm />
-      )}
+      {children}
     </AuthContext.Provider>
   );
 };

@@ -1,17 +1,13 @@
 import React from "react";
 import "./App.css";
 import { AuthContextProvider } from "./context/AuthContext";
-import { LoggedPage } from "./components/LoggedPage";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
-import { DataContextProvider } from "./context/DataContext";
-
 import i18n from "i18next";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 
 import Backend from "i18next-http-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
-import { AppStateContextProvider } from "./context/AppStateContext";
-import { GroupContextProvider } from "./context/GroupContext";
+import { Router } from "./routes";
 
 i18n
   .use(Backend)
@@ -52,13 +48,7 @@ function App() {
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <AuthContextProvider>
-          <AppStateContextProvider>
-            <GroupContextProvider>
-              <DataContextProvider>
-                <LoggedPage />
-              </DataContextProvider>
-            </GroupContextProvider>
-          </AppStateContextProvider>
+          <Router />
         </AuthContextProvider>
       </ThemeProvider>
     </I18nextProvider>
