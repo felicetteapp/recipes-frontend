@@ -10,35 +10,41 @@ import {
   Typography,
 } from "@mui/material";
 
-import { memo, useCallback, useRef, useState } from "react";
-import { IngredientsPage } from "./IngredientsPage";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ListsPage } from "./ListsPage";
 import { RecipesPage } from "./RecipesPage";
 import { useTranslation } from "react-i18next";
 import { useAppStateContext } from "../context/AppStateContext";
 import { MainMenu } from "./MainMenu";
-import { usePeristentState } from "../hooks/usePersistentState";
-
-const enum tabsEnum {
-  Recipes = "recipes",
-  List = "list",
-  Ingredients = "ingedients",
-}
+import { useLocation, useNavigate } from "react-router-dom";
+import { IngredientsPage } from "./IngredientsPage";
 
 const TABS = {
-  [tabsEnum.Ingredients]: IngredientsPage,
-  [tabsEnum.List]: ListsPage,
-  [tabsEnum.Recipes]: RecipesPage,
+  "/ingredients": IngredientsPage,
+  "/list": ListsPage,
+  "/recipes": RecipesPage,
 };
 
 const LoggedPageBase = () => {
-  const [currentTab, setCurrentTab] = usePeristentState(
-    "@loggedPage.currentTab",
-    tabsEnum.List
-  );
+  const navigate = useNavigate();
   const { t } = useTranslation();
+  const { pathname } = useLocation();
+  useEffect(() => {
+    if (pathname === "/") {
+      navigate("/list");
+    }
+  }, [navigate, pathname]);
 
-  const Content = TABS[currentTab];
+  const parsedPathName = useMemo(() => {
+    return `/${pathname.split("/")[1]}`;
+  }, [pathname]);
+
+  const Content = useMemo(() => {
+    if (!TABS[parsedPathName as keyof typeof TABS]) {
+      return () => <></>;
+    }
+    return TABS[parsedPathName as keyof typeof TABS];
+  }, [parsedPathName]);
 
   const anchorEl = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
@@ -106,27 +112,27 @@ const LoggedPageBase = () => {
           <BottomNavigation
             sx={{ background: "transparent" }}
             showLabels
-            value={currentTab}
+            value={parsedPathName}
             onChange={(_, value) => {
-              setCurrentTab(value as tabsEnum);
+              navigate(value);
             }}
           >
             <BottomNavigationAction
               label={t("common.recipe", { count: Number.POSITIVE_INFINITY })}
               icon={<Icon>menu_book</Icon>}
-              value={tabsEnum.Recipes}
+              value={"/recipes"}
             />
             <BottomNavigationAction
               label={t("common.list", { count: 1 })}
               icon={<Icon>list</Icon>}
-              value={tabsEnum.List}
+              value={"/list"}
             />
             <BottomNavigationAction
               label={t("common.ingredient", {
                 count: Number.POSITIVE_INFINITY,
               })}
               icon={<Icon>egg_alt</Icon>}
-              value={tabsEnum.Ingredients}
+              value={"/ingredients"}
             />
           </BottomNavigation>
         </Paper>

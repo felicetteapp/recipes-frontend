@@ -28,6 +28,12 @@ import {
 import { useGroup } from "../hooks/useGroup";
 import { IIngredient } from "../interfaces/IIngredient";
 import { GroupNameSubHeader } from "./GroupNameSubHeader";
+import {
+  generatePath,
+  useLocation,
+  useMatch,
+  useNavigate,
+} from "react-router-dom";
 
 const IngredientInputDisplayBase = ({
   data: { id, name },
@@ -37,13 +43,11 @@ const IngredientInputDisplayBase = ({
   onClose: () => void;
 }) => {
   const [inputName, setInputName] = useState(name || "");
-
   const [creating, handleCreationg] = useCreate();
   const [deleting, handleDeletion] = useDelete();
 
   const { id: groupId } = useGroup();
   const { t } = useTranslation();
-
   const handleOnSaveClick = useCallback(async () => {
     if (!groupId) {
       throw new Error("missing group id");
@@ -131,6 +135,31 @@ const IngredientsPageBase = () => {
     i18n: { language },
   } = useTranslation();
   const { setTitle, clearState } = useAppStateContext();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const isEditingIngredient = useMatch("ingredients/edit/:id");
+  const isCreatingIngredient = useMatch("ingredients/new");
+
+  useEffect(() => {
+    if (isCreatingIngredient) {
+      setIngredientToEdit({});
+      return;
+    }
+
+    if (isEditingIngredient) {
+      setIngredientToEdit(
+        ingredients.find((i) => i.id === isEditingIngredient.params.id) || false
+      );
+      return;
+    }
+
+    setIngredientToEdit(false);
+  }, [pathname, isEditingIngredient, ingredients, isCreatingIngredient]);
+
+  const ingredientsSorted = useMemo(() => {
+    const list = [...ingredients];
+    return list.sort((a, b) => a.name.localeCompare(b.name, language));
+  }, [ingredients, language]);
 
   useEffect(() => {
     setTitle(t("common.ingredient", { count: ingredients.length }));
@@ -138,11 +167,6 @@ const IngredientsPageBase = () => {
       clearState();
     };
   }, [clearState, ingredients.length, setTitle, t]);
-
-  const ingredientsSorted = useMemo(() => {
-    const list = [...ingredients];
-    return list.sort((a, b) => a.name.localeCompare(b.name, language));
-  }, [ingredients, language]);
 
   return (
     <>
@@ -158,7 +182,9 @@ const IngredientsPageBase = () => {
               <IconButton
                 color="warning"
                 sx={{ ml: 2 }}
-                onClick={() => setIngredientToEdit(item)}
+                onClick={() =>
+                  navigate(generatePath("edit/:id", { id: item.id }))
+                }
               >
                 <Icon>edit</Icon>
               </IconButton>
@@ -166,11 +192,12 @@ const IngredientsPageBase = () => {
           ))}
         </List>
       </Box>
-
       <Fab
         variant="extended"
         color="default"
-        onClick={() => setIngredientToEdit({ id: "" })}
+        onClick={() => {
+          navigate("new");
+        }}
         sx={{
           position: "fixed",
           bottom: "100px",
@@ -186,7 +213,7 @@ const IngredientsPageBase = () => {
         {ingredientToEdit && (
           <IngredientInputDisplay
             data={ingredientToEdit}
-            onClose={() => setIngredientToEdit(false)}
+            onClose={() => navigate(-1)}
           />
         )}
       </Dialog>
