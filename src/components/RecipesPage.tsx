@@ -18,6 +18,12 @@ import { updateGroup } from "../services/api/groups";
 import { RecipeInputDisplay } from "./RecipeInputDisplay";
 import { FullScreenSpinner } from "./FullScreenSpinner";
 import { GroupNameSubHeader } from "./GroupNameSubHeader";
+import {
+  generatePath,
+  useMatch,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 
 const RecipesPageBase = () => {
   const { listRecipes } = useDataContext();
@@ -26,13 +32,18 @@ const RecipesPageBase = () => {
   const [recipeToEdit, setRecipeToEdit] = useState<Partial<IRecipe>>({});
   const { t } = useTranslation();
 
+  const isEditingRecipe = useMatch("recipes/edit/:id");
+  const isCreatingRecipe = useMatch("recipes/new");
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const open = useMemo(() => {
     return Boolean(Object.keys(recipeToEdit).length);
   }, [recipeToEdit]);
 
   const handleCloseEditModal = useCallback(() => {
-    setRecipeToEdit({});
-  }, []);
+    navigate(-1);
+  }, [navigate]);
 
   const { id: groupId } = useGroup();
 
@@ -57,7 +68,25 @@ const RecipesPageBase = () => {
     setBackButton,
   } = useAppStateContext();
 
+  const { recipes } = useDataContext();
+
   const [enableSelection, setEnableSelection] = useState(false);
+
+  useEffect(() => {
+    if (isCreatingRecipe) {
+      setRecipeToEdit({ id: "" });
+      return;
+    }
+
+    if (isEditingRecipe) {
+      setRecipeToEdit(
+        recipes.find((i) => i.id === isEditingRecipe.params.id) || {}
+      );
+      return;
+    }
+
+    setRecipeToEdit({});
+  }, [isEditingRecipe, recipes, isCreatingRecipe]);
 
   useEffect(() => {
     setTitle(t("common.recipe", { count: Number.POSITIVE_INFINITY }));
@@ -74,7 +103,7 @@ const RecipesPageBase = () => {
       !enableSelection ? null : (
         <IconButton
           color="inherit"
-          onClick={() => setEnableSelection(false)}
+          onClick={() => setSearchParams({ selectable: "false" })}
           edge="start"
           sx={{ mr: 2 }}
         >
@@ -88,6 +117,7 @@ const RecipesPageBase = () => {
     setDisableMenu,
     setDisableBottomNavigation,
     setBackButton,
+    setSearchParams,
   ]);
 
   useEffect(() => {
@@ -95,13 +125,15 @@ const RecipesPageBase = () => {
       enableSelection ? null : (
         <Button
           color="inherit"
-          onClick={() => setEnableSelection((currentState) => !currentState)}
+          onClick={() => {
+            setSearchParams({ selectable: "true" });
+          }}
         >
           {t("actions.recipe.selectRecipes")}
         </Button>
       )
     );
-  }, [setAction, enableSelection, t, setColor]);
+  }, [setAction, enableSelection, t, setColor, setSearchParams]);
 
   useEffect(() => {
     if (enableSelection) {
@@ -117,6 +149,14 @@ const RecipesPageBase = () => {
     }
   }, [listRecipes, enableSelection]);
 
+  useEffect(() => {
+    if (searchParams.get("selectable") === "true") {
+      setEnableSelection(true);
+    } else {
+      setEnableSelection(false);
+    }
+  }, [searchParams]);
+
   return (
     <>
       <Typography variant="h4">
@@ -126,13 +166,15 @@ const RecipesPageBase = () => {
       <Box sx={{ paddingBottom: "75px" }}>
         <RecipesList
           enableSelection={enableSelection}
-          onEditClick={setRecipeToEdit}
+          onEditClick={(recipe) =>
+            navigate(generatePath("edit/:id", { id: recipe.id }))
+          }
           checkeds={selectedRecipes}
           onChangeCheckeds={setSelectedRecipes}
           showIsInList
         />
       </Box>
-      <Dialog fullScreen open={open} onClose={() => setRecipeToEdit({})}>
+      <Dialog fullScreen open={open}>
         <RecipeInputDisplay
           data={recipeToEdit}
           onCancel={handleCloseEditModal}
@@ -160,7 +202,7 @@ const RecipesPageBase = () => {
         <Fab
           variant="extended"
           color="default"
-          onClick={() => setRecipeToEdit({ id: "" })}
+          onClick={() => navigate("new")}
           sx={{
             position: "fixed",
             bottom: "100px",

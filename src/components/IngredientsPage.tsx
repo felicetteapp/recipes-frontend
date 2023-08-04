@@ -28,12 +28,7 @@ import {
 import { useGroup } from "../hooks/useGroup";
 import { IIngredient } from "../interfaces/IIngredient";
 import { GroupNameSubHeader } from "./GroupNameSubHeader";
-import {
-  generatePath,
-  useLocation,
-  useMatch,
-  useNavigate,
-} from "react-router-dom";
+import { generatePath, useMatch, useNavigate } from "react-router-dom";
 
 const IngredientInputDisplayBase = ({
   data: { id, name },
@@ -136,9 +131,12 @@ const IngredientsPageBase = () => {
   } = useTranslation();
   const { setTitle, clearState } = useAppStateContext();
   const navigate = useNavigate();
-  const { pathname } = useLocation();
   const isEditingIngredient = useMatch("ingredients/edit/:id");
   const isCreatingIngredient = useMatch("ingredients/new");
+  const ingredientsSorted = useMemo(() => {
+    const list = [...ingredients];
+    return list.sort((a, b) => a.name.localeCompare(b.name, language));
+  }, [ingredients, language]);
 
   useEffect(() => {
     if (isCreatingIngredient) {
@@ -154,12 +152,7 @@ const IngredientsPageBase = () => {
     }
 
     setIngredientToEdit(false);
-  }, [pathname, isEditingIngredient, ingredients, isCreatingIngredient]);
-
-  const ingredientsSorted = useMemo(() => {
-    const list = [...ingredients];
-    return list.sort((a, b) => a.name.localeCompare(b.name, language));
-  }, [ingredients, language]);
+  }, [isEditingIngredient, ingredients, isCreatingIngredient]);
 
   useEffect(() => {
     setTitle(t("common.ingredient", { count: ingredients.length }));

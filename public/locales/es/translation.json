@@ -81,6 +81,12 @@
     "ingredientsOnListDescription": "Los ingredientes elegidos aparecerán en la lista de la compra aunque no estén en ninguna receta",
     "quantityForRecipe": "{{quantity}} para {{recipe}}",
     "recipesOnListDescription": "Los ingredientes de las recetas elegidas aparecerán en la lista de la compra",
+    "snackbar": {
+      "showingListGroupedBy": {
+        "ingredients": "Mostrando la lista agrupada por ingrediente",
+        "recipes": "Mostrando lista agrupada por receta"
+      }
+    },
     "value": {
       "availableBudget": "<strong>{{availableValue, currency}}</strong> disponibles",
       "ingredient": {

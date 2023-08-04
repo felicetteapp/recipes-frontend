@@ -30,7 +30,9 @@ import {
   ToggleButtonGroup,
   Typography,
   useTheme,
+  Snackbar,
 } from "@mui/material";
+
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useDataContext } from "../context/DataContext";
 import { useCreate } from "../hooks/useCreate";
@@ -48,6 +50,7 @@ import { useGroup } from "../hooks/useGroup";
 import { updateGroup } from "../services/api/groups";
 import { GroupNameSubHeader } from "./GroupNameSubHeader";
 import { usePeristentState } from "../hooks/usePersistentState";
+import { useMatch, useNavigate, useSearchParams } from "react-router-dom";
 
 const availableCurrencies = ["USD", "ARS", "BRL", "EUR"];
 
@@ -65,7 +68,8 @@ const ListsPageBase = () => {
     useMonetaryInputState(budget);
 
   const { setAction, clearState, setTitle } = useAppStateContext();
-
+  const isEditingList = useMatch("list/edit");
+  const navigate = useNavigate();
   const theme = useTheme();
 
   const formater = useMemo(() => {
@@ -116,7 +120,7 @@ const ListsPageBase = () => {
       <Button
         color="warning"
         startIcon={<Icon>edit</Icon>}
-        onClick={() => setModalEditIsOpen(true)}
+        onClick={() => navigate("edit")}
       >
         {t("list.editList")}
       </Button>
@@ -124,11 +128,19 @@ const ListsPageBase = () => {
     return () => {
       clearState();
     };
-  }, [setAction, clearState, t, setTitle]);
+  }, [setAction, clearState, t, setTitle, navigate]);
 
   useEffect(() => {
     setRawValue(budget);
   }, [setRawValue, budget]);
+
+  useEffect(() => {
+    if (isEditingList) {
+      setModalEditIsOpen(true);
+    } else {
+      setModalEditIsOpen(false);
+    }
+  }, [isEditingList]);
 
   return (
     <>
@@ -231,11 +243,7 @@ const ListsPageBase = () => {
           </Stack>
         </DialogContent>
         <DialogActions sx={{ paddingBottom: "25px" }}>
-          <Button
-            fullWidth
-            onClick={() => setModalEditIsOpen(false)}
-            variant="contained"
-          >
+          <Button fullWidth onClick={() => navigate(-1)} variant="contained">
             {t("common.ok")}
           </Button>
         </DialogActions>
@@ -338,12 +346,13 @@ const IngredientsListFromRecipesBase = () => {
     IIngredient | false
   >(false);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [listDisplayType, setListDisplayType] = usePeristentState<
     "ingredients" | "recipes"
   >("@list.listDisplayType", "ingredients");
 
   const handleModalOnClose = useCallback(() => {
-    setEditingIngredient(false);
     setModalOpen(false);
   }, []);
 
@@ -488,11 +497,63 @@ const IngredientsListFromRecipesBase = () => {
     return list.sort((a, b) => a.name.localeCompare(b.name));
   }, [recipes]);
 
+  const [listDisplaySnackbar, setListDisplaySnackbar] = useState(false);
+
+  useEffect(() => {
+    const filterModalShouldBeOpen = searchParams.get("filterModal") === "open";
+
+    if (filterModalShouldBeOpen) {
+      setModalFilterIsOpen(true);
+    } else {
+      setModalFilterIsOpen(false);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    const editingIngredientIdParam = searchParams.get("editingIngredientId");
+
+    if (editingIngredientIdParam) {
+      const ingredientFromParam = ingredients.find(
+        (i) => i.ingredient.id === editingIngredientIdParam
+      );
+
+      if (ingredientFromParam) {
+        handleOpenModal(ingredientFromParam.ingredient);
+      } else {
+        handleModalOnClose();
+      }
+    } else {
+      handleModalOnClose();
+    }
+  }, [handleModalOnClose, handleOpenModal, ingredients, searchParams]);
+
   return (
     <>
+      <Snackbar
+        open={listDisplaySnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        autoHideDuration={2500}
+        onClose={() => setListDisplaySnackbar(false)}
+        message={t(`list.snackbar.showingListGroupedBy.${listDisplayType}`)}
+        sx={{ bottom: { xs: 150 } }}
+        key={`snackbark.${listDisplayType}`}
+        action={
+          <Button
+            color="inherit"
+            size="small"
+            onClick={() => setListDisplaySnackbar(false)}
+          >
+            {t("common.ok")}
+          </Button>
+        }
+      />
       <Stack direction="row" spacing={1}>
         <Button
-          onClick={() => setModalFilterIsOpen(true)}
+          onClick={() => {
+            setSearchParams({
+              filterModal: "open",
+            });
+          }}
           color="secondary"
           startIcon={<Icon>tune</Icon>}
           variant="outlined"
@@ -503,8 +564,8 @@ const IngredientsListFromRecipesBase = () => {
           exclusive
           value={listDisplayType}
           onChange={(_, value) => {
-            console.log(value);
             if (value !== null) {
+              setListDisplaySnackbar(true);
               setListDisplayType(value);
             }
           }}
@@ -588,7 +649,10 @@ const IngredientsListFromRecipesBase = () => {
                               return;
                             }
                             if (e.currentTarget.checked) {
-                              handleOpenModal(thisIngredient);
+                              setSearchParams({
+                                editingIngredientId: thisIngredient.id,
+                              });
+
                               if (!groupId) {
                                 throw new Error("missing groupId");
                               }
@@ -636,7 +700,9 @@ const IngredientsListFromRecipesBase = () => {
                               if (!thisIngredient) {
                                 return;
                               }
-                              handleOpenModal(thisIngredient);
+                              setSearchParams({
+                                editingIngredientId: thisIngredient.id,
+                              });
                             }}
                             sx={{ marginLeft: 3, marginRight: 1 }}
                           >
@@ -708,7 +774,10 @@ const IngredientsListFromRecipesBase = () => {
                                 if (!thisIngredient) {
                                   return;
                                 }
-                                handleOpenModal(thisIngredient);
+
+                                setSearchParams({
+                                  editingIngredientId: thisIngredient.id,
+                                });
                               }}
                             >
                               <Icon>edit</Icon>
@@ -741,7 +810,9 @@ const IngredientsListFromRecipesBase = () => {
                     disableRipple
                     onChange={async (e) => {
                       if (e.currentTarget.checked) {
-                        handleOpenModal(ingredient);
+                        setSearchParams({
+                          editingIngredientId: ingredient.id,
+                        });
                         if (!groupId) {
                           throw new Error("missing groupId");
                         }
@@ -772,7 +843,11 @@ const IngredientsListFromRecipesBase = () => {
                   {!thisItemPrices ||
                   checkedIngredients.indexOf(ingredient.id) === -1 ? null : (
                     <Stack
-                      onClick={() => handleOpenModal(ingredient)}
+                      onClick={() =>
+                        setSearchParams({
+                          editingIngredientId: ingredient.id,
+                        })
+                      }
                       sx={{ marginLeft: 3, marginRight: 1 }}
                     >
                       <Typography
@@ -835,7 +910,11 @@ const IngredientsListFromRecipesBase = () => {
                     checkedIngredients.indexOf(ingredient.id) > -1 && (
                       <IconButton
                         color="warning"
-                        onClick={() => handleOpenModal(ingredient)}
+                        onClick={() =>
+                          setSearchParams({
+                            editingIngredientId: ingredient.id,
+                          })
+                        }
                       >
                         <Icon>edit</Icon>
                       </IconButton>
@@ -847,16 +926,11 @@ const IngredientsListFromRecipesBase = () => {
         </List>
       )}
 
-      <Dialog
-        fullScreen
-        open={modalOpen}
-        onClose={handleModalOnClose}
-        sx={{ zIndex: 999999 }}
-      >
+      <Dialog fullScreen open={modalOpen} sx={{ zIndex: 999999 }}>
         {editingIngredient && (
           <IngredientPriceForm
             ingredient={editingIngredient}
-            onClose={handleModalOnClose}
+            onClose={() => setSearchParams({ editingIngredientId: "" })}
             onSubmitWithoutPrice={() => {
               if (!groupId) {
                 throw new Error("missing groupId");
@@ -866,7 +940,7 @@ const IngredientsListFromRecipesBase = () => {
                 `ingredientsPrices.${editingIngredient.id}`,
                 deleteField()
               );
-              handleModalOnClose();
+              setSearchParams({ editingIngredientId: "" });
             }}
             data={(
               ingredientsPrices[editingIngredient.id] || [{ q: 1, u: 0 }]
@@ -883,7 +957,7 @@ const IngredientsListFromRecipesBase = () => {
                 `ingredientsPrices.${editingIngredient.id}`,
                 data
               );
-              handleModalOnClose();
+              setSearchParams({ editingIngredientId: "" });
             }}
           />
         )}
@@ -914,7 +988,7 @@ const IngredientsListFromRecipesBase = () => {
         <DialogActions sx={{ paddingBottom: "25px" }}>
           <Button
             fullWidth
-            onClick={() => setModalFilterIsOpen(false)}
+            onClick={() => setSearchParams({ filterModal: "closed" })}
             variant="contained"
           >
             {t("common.ok")}

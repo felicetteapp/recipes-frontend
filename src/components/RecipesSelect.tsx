@@ -1,4 +1,4 @@
-import { memo, useMemo, useState } from "react";
+import { memo, useMemo, useState, useEffect } from "react";
 import { useDataContext } from "../context/DataContext";
 import { useTranslation } from "react-i18next";
 import {
@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { RecipesList } from "./RecipesList";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 interface Props {
   value: Array<string>;
@@ -30,10 +31,25 @@ const RecipesSelectBase = ({ value, onChange }: Props) => {
   }, [value, recipes]);
 
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const isRecipeSelectOpen = searchParams.get("recipeSelectOpen") === "true";
+    if (isRecipeSelectOpen) {
+      setDialogIsOpen(true);
+    } else {
+      setDialogIsOpen(false);
+    }
+  }, [searchParams]);
+
   return (
     <>
       <Card>
-        <CardActionArea onClick={() => setDialogIsOpen(true)}>
+        <CardActionArea
+          onClick={() => setSearchParams({ recipeSelectOpen: "true" })}
+        >
           <CardContent>
             <Typography variant="body2" color="text.secondary" gutterBottom>
               {t("common.recipe", {
@@ -58,11 +74,7 @@ const RecipesSelectBase = ({ value, onChange }: Props) => {
           />
         </DialogContent>
         <DialogActions sx={{ paddingBottom: "25px" }}>
-          <Button
-            fullWidth
-            onClick={() => setDialogIsOpen(false)}
-            variant="contained"
-          >
+          <Button fullWidth onClick={() => navigate(-1)} variant="contained">
             {t("common.ok")}
           </Button>
         </DialogActions>

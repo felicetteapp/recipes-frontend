@@ -16,6 +16,7 @@ import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDataContext } from "../context/DataContext";
 import { IngredientsSelect } from "./IngredientsSelect";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 const getQuantityObject = (list: Array<{ q: string; i: string }>) => {
   const object: Record<string, string> = {};
@@ -34,6 +35,7 @@ const ListIngredientsSelectBase = ({ onChange }: Props) => {
   const { listIngredients, ingredients } = useDataContext();
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [currentSelecteds, setCurrentSelecteds] = useState(
     listIngredients.map(({ i }) => i)
@@ -61,8 +63,8 @@ const ListIngredientsSelectBase = ({ onChange }: Props) => {
 
   const handleOnSave = useCallback(() => {
     onChange(currentIngredientsWithQuantity);
-    setDialogIsOpen(false);
-  }, [currentIngredientsWithQuantity, onChange]);
+    navigate(-1);
+  }, [currentIngredientsWithQuantity, navigate, onChange]);
 
   useEffect(() => {
     setCurrentSelecteds(listIngredients.map(({ i }) => i));
@@ -86,10 +88,24 @@ const ListIngredientsSelectBase = ({ onChange }: Props) => {
     });
   }, [currentSelecteds]);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const isRecipeSelectOpen =
+      searchParams.get("listIngredientsSelect") === "true";
+    if (isRecipeSelectOpen) {
+      setDialogIsOpen(true);
+    } else {
+      setDialogIsOpen(false);
+    }
+  }, [searchParams]);
+
   return (
     <>
       <Card>
-        <CardActionArea onClick={() => setDialogIsOpen(true)}>
+        <CardActionArea
+          onClick={() => setSearchParams({ listIngredientsSelect: "true" })}
+        >
           <CardContent>
             <Typography variant="body2" color="text.secondary" gutterBottom>
               {t("common.ingredient", {

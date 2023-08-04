@@ -27,7 +27,16 @@ export const Router = () => {
             </NoLoggedRoute>
           ),
         },
-        { path: "/list", element: home },
+        {
+          path: "/list",
+          element: home,
+          children: [
+            {
+              path: "edit",
+              element: home,
+            },
+          ],
+        },
         {
           path: "/ingredients",
           element: home,
@@ -42,7 +51,20 @@ export const Router = () => {
             },
           ],
         },
-        { path: "/recipes", element: home },
+        {
+          path: "/recipes",
+          element: home,
+          children: [
+            {
+              path: "new",
+              element: home,
+            },
+            {
+              path: "edit/:id",
+              element: home,
+            },
+          ],
+        },
       ],
     },
   ];
