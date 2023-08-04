@@ -81,6 +81,12 @@
     "ingredientsOnListDescription": "Les ingrédients choisis apparaîtront dans la liste de courses même s’ils ne sont dans aucune recette",
     "quantityForRecipe": "{{quantity}} pour {{recipe}}",
     "recipesOnListDescription": "Les ingrédients des recettes choisies apparaîtront dans la liste de courses",
+    "snackbar": {
+      "showingListGroupedBy": {
+        "ingredients": "Affichage de la liste regroupée par ingrédient",
+        "recipes": "Affichage de la liste regroupée par recette"
+      }
+    },
     "value": {
       "availableBudget": "<strong>{{availableValue, currency}}</strong> disponibles",
       "ingredient": {
