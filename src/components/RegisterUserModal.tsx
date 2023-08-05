@@ -1,10 +1,17 @@
 import {
+  Alert,
   Button,
   CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  Icon,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
   Stack,
   TextField,
 } from "@mui/material";
@@ -21,15 +28,19 @@ const RegisterUserModalBase = ({ open, onClose }: Props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-
   const [creating, setCreating] = useState(false);
+  const [error, setError] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
 
   const handleOnCreate = useCallback(async () => {
     setCreating(true);
+    setError(false);
     try {
       await createUserWithEmailAndPassword(getAuth(), email, password);
     } catch (e) {
-      window.alert("problem creating user");
+      // TODO: handle each error type
+      setError(true);
       setCreating(false);
     }
   }, [email, password]);
@@ -47,27 +58,70 @@ const RegisterUserModalBase = ({ open, onClose }: Props) => {
             onChange={(e) => setEmail(e.currentTarget.value)}
             type="email"
           />
-          <TextField
-            variant="outlined"
+          <FormControl fullWidth variant="outlined" sx={{ marginTop: 2 }}>
+            <InputLabel>{t("common.password")}</InputLabel>
+            <OutlinedInput
+              type={passwordVisible ? "text" : "password"}
+              placeholder={t("common.password")}
+              label={t("common.password")}
+              value={password}
+              onChange={(e) => setPassword(e.currentTarget.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setPasswordVisible((state) => !state)}
+                    edge="end"
+                  >
+                    {passwordVisible ? (
+                      <Icon>visibility_off</Icon>
+                    ) : (
+                      <Icon>visibility</Icon>
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+          <FormControl
             fullWidth
-            label={t("common.password")}
-            placeholder={t("common.password")}
-            value={password}
-            onChange={(e) => setPassword(e.currentTarget.value)}
-            type="password"
-          />
-          <TextField
             variant="outlined"
-            fullWidth
-            label={t("common.passwordConfirm")}
-            placeholder={t("common.passwordConfirm")}
-            value={passwordConfirm}
-            onChange={(e) => setPasswordConfirm(e.currentTarget.value)}
-            type="password"
+            sx={{ marginTop: 2 }}
             error={password !== passwordConfirm}
-          />
+          >
+            <InputLabel>{t("common.passwordConfirm")}</InputLabel>
+            <OutlinedInput
+              type={passwordConfirmVisible ? "text" : "password"}
+              placeholder={t("common.passwordConfirm")}
+              label={t("common.passwordConfirm")}
+              value={passwordConfirm}
+              onChange={(e) => setPasswordConfirm(e.currentTarget.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setPasswordConfirmVisible((state) => !state)}
+                    edge="end"
+                  >
+                    {passwordConfirmVisible ? (
+                      <Icon>visibility_off</Icon>
+                    ) : (
+                      <Icon>visibility</Icon>
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
         </Stack>
       </DialogContent>
+      {error && (
+        <DialogContent>
+          <Alert severity="error" onClose={() => setError(false)}>
+            {t("common.genericError")}
+          </Alert>
+        </DialogContent>
+      )}
       <DialogActions>
         <Button fullWidth color="inherit" onClick={onClose}>
           {t("actions.cancel")}
