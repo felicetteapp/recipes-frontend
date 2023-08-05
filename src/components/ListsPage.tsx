@@ -513,19 +513,19 @@ const IngredientsListFromRecipesBase = () => {
     const editingIngredientIdParam = searchParams.get("editingIngredientId");
 
     if (editingIngredientIdParam) {
-      const ingredientFromParam = ingredients.find(
-        (i) => i.ingredient.id === editingIngredientIdParam
+      const ingredientFromParam = dataIngredients.find(
+        (i) => i.id === editingIngredientIdParam
       );
 
       if (ingredientFromParam) {
-        handleOpenModal(ingredientFromParam.ingredient);
+        handleOpenModal(ingredientFromParam);
       } else {
         handleModalOnClose();
       }
     } else {
       handleModalOnClose();
     }
-  }, [handleModalOnClose, handleOpenModal, ingredients, searchParams]);
+  }, [handleModalOnClose, handleOpenModal, dataIngredients, searchParams]);
 
   return (
     <>
