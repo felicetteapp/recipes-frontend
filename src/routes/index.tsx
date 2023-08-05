@@ -11,6 +11,12 @@ export const Router = () => {
     </LoggedRoute>
   );
 
+  const auth = (
+    <NoLoggedRoute>
+      <LoginForm />
+    </NoLoggedRoute>
+  );
+
   const routes: RouteObject[] = [
     {
       path: "/",
@@ -21,11 +27,13 @@ export const Router = () => {
         },
         {
           path: "/login",
-          element: (
-            <NoLoggedRoute>
-              <LoginForm />
-            </NoLoggedRoute>
-          ),
+          element: auth,
+          children: [
+            {
+              path: "register",
+              element: auth,
+            },
+          ],
         },
         {
           path: "/list",
