@@ -35,6 +35,7 @@
     "budget": "Budget",
     "currency": "Monnaie",
     "email": "Messagerie électronique",
+    "genericError": "Ops! Quelque chose s’est mal passé.",
     "ingredient_one": "Ingrédient",
     "ingredient_other": "Ingrédients",
     "invite_one": "Inviter",
@@ -56,6 +57,10 @@
     "recipe_other": "Recettes",
     "recipesCount_one": "{{count}} recette",
     "recipesCount_other": "{{count}} recettes"
+  },
+  "felicette": {
+    "felicette": "Félicité",
+    "recipes": "Recettes"
   },
   "group": {
     "createGroupDescription": "Créez un nouveau groupe pour commencer à créer des recettes et des listes de courses. Vous pouvez inviter d’autres membres ou accepter des invitations à d’autres groupes à tout moment.",

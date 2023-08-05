@@ -35,6 +35,7 @@
     "budget": "Orçamento",
     "currency": "Moeda",
     "email": "Email",
+    "genericError": "Ops! Algo deu errado.",
     "ingredient_one": "Ingrediente",
     "ingredient_other": "Ingredientes",
     "invite_one": "Convite",
@@ -56,6 +57,10 @@
     "recipe_other": "Receitas",
     "recipesCount_one": "{{count}} receita",
     "recipesCount_other": "{{count}} receitas"
+  },
+  "felicette": {
+    "felicette": "Felipete",
+    "recipes": "Receitas"
   },
   "group": {
     "createGroupDescription": "Crie um novo grupo para começar a criar receitas e listas de compras. Você pode convidar outros membros ou aceitar convites para outros grupos a qualquer momento.",

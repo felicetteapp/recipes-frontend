@@ -55,7 +55,12 @@
     "recipe_one": "Recipe",
     "recipe_other": "Recipes",
     "recipesCount_one": "{{count}} recipe",
-    "recipesCount_other": "{{count}} recipes"
+    "recipesCount_other": "{{count}} recipes",
+    "genericError": "Ops! Something went wrong."
+  },
+  "felicette": {
+    "felicette": "Felicette",
+    "recipes": "Recipes"
   },
   "group": {
     "createGroupDescription": "Create a new group to start creating recipes and shopping lists. You can invite other members, or acept invites to another groups anytime.",
