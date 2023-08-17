@@ -10,6 +10,7 @@
     "deleteConfirm": "¿Borrar?",
     "editGroup": "Editar grupo",
     "ingredient": {
+      "add": "Añadir ingrediente",
       "new": "Nuevo ingrediente"
     },
     "list": {
@@ -78,8 +79,8 @@
   },
   "list": {
     "alsoNeededFor": "También {{recipes}}",
-    "clearAllChecks": "Borrar todas las comprobaciones",
-    "confirmClearAllChecks": "¿Borrar todos los cheques?",
+    "clearAllChecks": "Borrar todas las checks",
+    "confirmClearAllChecks": "¿Borrar todos los checks?",
     "editList": "Editar lista",
     "filtersAndOrder": "Filtros y ordenación",
     "ingredientFor": "por {{name}}",

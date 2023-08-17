@@ -10,6 +10,7 @@
     "deleteConfirm": "Supprimer?",
     "editGroup": "Modifier le groupe",
     "ingredient": {
+      "add": "Ajouter un ingrédient",
       "new": "Nouvel ingrédient"
     },
     "list": {
