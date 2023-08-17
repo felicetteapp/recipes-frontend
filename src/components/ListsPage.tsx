@@ -50,7 +50,12 @@ import { useGroup } from "../hooks/useGroup";
 import { updateGroup } from "../services/api/groups";
 import { GroupNameSubHeader } from "./GroupNameSubHeader";
 import { usePeristentState } from "../hooks/usePersistentState";
-import { useMatch, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  generatePath,
+  useMatch,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 
 const availableCurrencies = ["USD", "ARS", "BRL", "EUR"];
 
@@ -102,6 +107,11 @@ const ListsPageBase = () => {
     });
   }, [groupId, handleSave, t]);
 
+  const handleAddIngredientOnClick = useCallback(() => {
+    // http://localhost:3000/list/edit?listIngredientsSelect=true
+    navigate(generatePath("edit?listIngredientsSelect=true&focus=true"));
+  }, [navigate]);
+
   const handleCurrencyOnChange = useCallback(
     (e: SelectChangeEvent<string>) => {
       handleSave(() => {
@@ -151,6 +161,14 @@ const ListsPageBase = () => {
         </div>
         <IngredientsListFromRecipes />
         <Button
+          startIcon={<Icon>playlist_add</Icon>}
+          fullWidth
+          color="warning"
+          onClick={handleAddIngredientOnClick}
+        >
+          {t("actions.ingredient.add")}
+        </Button>
+        <Button
           startIcon={<Icon>remove_done</Icon>}
           fullWidth
           color="error"
@@ -159,7 +177,13 @@ const ListsPageBase = () => {
           {t("list.clearAllChecks")}
         </Button>
       </Stack>
-      <Dialog fullScreen open={modalEditIsOpen}>
+      <Dialog
+        fullScreen
+        open={modalEditIsOpen}
+        keepMounted
+        disableEnforceFocus
+        disableAutoFocus
+      >
         <DialogTitle>{t("list.editList")}</DialogTitle>
         <DialogContent>
           <Stack spacing={2}>
@@ -925,7 +949,6 @@ const IngredientsListFromRecipesBase = () => {
           })}
         </List>
       )}
-
       <Dialog fullScreen open={modalOpen} sx={{ zIndex: 999999 }}>
         {editingIngredient && (
           <IngredientPriceForm

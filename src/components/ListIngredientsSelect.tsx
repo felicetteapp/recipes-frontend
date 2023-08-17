@@ -12,11 +12,14 @@ import {
   Stack,
   Divider,
 } from "@mui/material";
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDataContext } from "../context/DataContext";
 import { IngredientsSelect } from "./IngredientsSelect";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import Select from "react-select/dist/declarations/src/Select";
+import { IIngredient } from "../interfaces/IIngredient";
+import { GroupBase } from "react-select";
 
 const getQuantityObject = (list: Array<{ q: string; i: string }>) => {
   const object: Record<string, string> = {};
@@ -37,6 +40,9 @@ const ListIngredientsSelectBase = ({ onChange }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  const ingredientSelectRef =
+    useRef<Select<IIngredient, true, GroupBase<IIngredient>>>(null);
+
   const [currentSelecteds, setCurrentSelecteds] = useState(
     listIngredients.map(({ i }) => i)
   );
@@ -51,6 +57,9 @@ const ListIngredientsSelectBase = ({ onChange }: Props) => {
   const [ingredientsQuantity, setIngredientsQuantity] = useState<
     Record<string, string>
   >(getQuantityObject(listIngredients));
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const shouldFocusSelect = searchParams.get("focus") === "true";
 
   const currentIngredientsWithQuantity = useMemo(() => {
     return currentSelecteds.map((ingredient) => {
@@ -88,8 +97,6 @@ const ListIngredientsSelectBase = ({ onChange }: Props) => {
     });
   }, [currentSelecteds]);
 
-  const [searchParams, setSearchParams] = useSearchParams();
-
   useEffect(() => {
     const isRecipeSelectOpen =
       searchParams.get("listIngredientsSelect") === "true";
@@ -99,6 +106,11 @@ const ListIngredientsSelectBase = ({ onChange }: Props) => {
       setDialogIsOpen(false);
     }
   }, [searchParams]);
+  useEffect(() => {
+    if (shouldFocusSelect && ingredientSelectRef.current) {
+      ingredientSelectRef.current.focusInput();
+    }
+  }, [shouldFocusSelect]);
 
   return (
     <>
@@ -116,7 +128,13 @@ const ListIngredientsSelectBase = ({ onChange }: Props) => {
           </CardContent>
         </CardActionArea>
       </Card>
-      <Dialog open={dialogIsOpen} fullScreen>
+      <Dialog
+        open={dialogIsOpen}
+        fullScreen
+        keepMounted
+        disableEnforceFocus
+        disableAutoFocus
+      >
         <DialogTitle>
           {t("common.ingredient", { count: listIngredients.length })}
         </DialogTitle>
@@ -124,6 +142,7 @@ const ListIngredientsSelectBase = ({ onChange }: Props) => {
           <IngredientsSelect
             value={currentSelecteds}
             onChange={setCurrentSelecteds}
+            ref={ingredientSelectRef}
           />
           <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           <Stack spacing={2}>
