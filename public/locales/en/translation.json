@@ -10,6 +10,7 @@
     "deleteConfirm": "Delete?",
     "editGroup": "Edit group",
     "ingredient": {
+      "add": "Add ingredient",
       "new": "New ingredient"
     },
     "list": {
@@ -35,6 +36,7 @@
     "budget": "Budget",
     "currency": "Currency",
     "email": "Email",
+    "genericError": "Ops! Something went wrong.",
     "ingredient_one": "Ingredient",
     "ingredient_other": "Ingredients",
     "invite_one": "Invite",
@@ -55,8 +57,7 @@
     "recipe_one": "Recipe",
     "recipe_other": "Recipes",
     "recipesCount_one": "{{count}} recipe",
-    "recipesCount_other": "{{count}} recipes",
-    "genericError": "Ops! Something went wrong."
+    "recipesCount_other": "{{count}} recipes"
   },
   "felicette": {
     "felicette": "Felicette",
