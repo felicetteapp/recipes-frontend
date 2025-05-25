@@ -18,4 +18,4 @@ const firebaseConfig = {
 // Initialize Firebase
 export const firebaseApp = initializeApp(firebaseConfig);
 export const db = getFirestore(firebaseApp);
-export const functions = getFunctions();
+export const functions = getFunctions(firebaseApp);

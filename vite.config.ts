@@ -10,6 +10,16 @@ export default defineConfig({
     alias: {
       "@": resolve(__dirname, "./src"),
     },
+    dedupe: ["firebase"],
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      // Node.js global to browser globalThis
+      define: {
+        global: "globalThis",
+      },
+    },
+    include: ["firebase/app", "firebase/firestore", "firebase/functions"],
   },
   server: {
     port: 3000,
@@ -28,6 +38,10 @@ export default defineConfig({
   build: {
     outDir: "build",
     sourcemap: true,
+    commonjsOptions: {
+      include: [/node_modules/],
+      transformMixedEsModules: true,
+    },
     rollupOptions: {
       output: {
         manualChunks: {
@@ -36,18 +50,11 @@ export default defineConfig({
             "react-dom",
             "react-router-dom",
             "@mui/material",
-            "firebase",
             "i18next",
             "react-i18next",
           ],
         },
       },
     },
-  },
-  test: {
-    globals: true,
-    environment: "jsdom",
-    setupFiles: ["./src/setupTests.ts"],
-    css: true,
   },
 });
