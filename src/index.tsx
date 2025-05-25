@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <BrowserRouter future={{ v7_relativeSplatPath: true }}>
+  <BrowserRouter>
     <App />
   </BrowserRouter>
 );
