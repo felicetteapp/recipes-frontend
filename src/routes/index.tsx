@@ -4,72 +4,72 @@ import { LoggedRoute } from "./LoggedRoute";
 import { NoLoggedRoute } from "./NoLoggedRoute";
 import { LoggedRouter } from "./LoggedRouter";
 
+const homeElement = (
+  <LoggedRoute>
+    <LoggedRouter />
+  </LoggedRoute>
+);
+
+const authElement = (
+  <NoLoggedRoute>
+    <LoginForm />
+  </NoLoggedRoute>
+);
+
 export const Router = () => {
-  const home = (
-    <LoggedRoute>
-      <LoggedRouter />
-    </LoggedRoute>
-  );
-
-  const auth = (
-    <NoLoggedRoute>
-      <LoginForm />
-    </NoLoggedRoute>
-  );
-
   const routes: RouteObject[] = [
     {
       path: "/",
       children: [
         {
           index: true,
-          element: home,
+          element: homeElement,
         },
         {
           path: "/login",
-          element: auth,
+          element: authElement,
           children: [
             {
               path: "register",
-              element: auth,
+              element: authElement,
             },
           ],
         },
         {
           path: "/list",
-          element: home,
+          element: homeElement,
           children: [
             {
               path: "edit",
-              element: home,
+              element: homeElement,
             },
           ],
         },
         {
           path: "/ingredients",
-          element: home,
+          element: homeElement,
           children: [
             {
               path: "new",
-              element: home,
+              element: homeElement,
             },
             {
               path: "edit/:id",
-              element: home,
+              element: homeElement,
             },
           ],
         },
         {
           path: "/recipes",
-          element: home,
+          element: homeElement,
           children: [
             {
               path: "new",
-              element: home,
+              element: homeElement,
             },
             {
               path: "edit/:id",
-              element: home,
+              element: homeElement,
             },
           ],
         },

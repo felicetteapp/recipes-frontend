@@ -75,7 +75,8 @@ const GroupContextProviderBase = ({
   useEffect(() => {
     if (user) {
       user.getIdTokenResult().then((token) => {
-        setCurrentGroupsClaims(token.claims.groups || []);
+        const groups = (token.claims.groups as string[] | undefined) || [];
+        setCurrentGroupsClaims(groups);
         setClaimsFetched(true);
       });
     }
