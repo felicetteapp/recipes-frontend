@@ -5,7 +5,7 @@ const reportWebVitals = (onPerfEntry?: (metric: any) => void) => {
     // Web-vitals v5+ API
     onCLS(onPerfEntry);
     onFCP(onPerfEntry);
-    onINP(onPerfEntry); // INP replaced FID as a Core Web Vital
+    onINP(onPerfEntry);
     onLCP(onPerfEntry);
     onTTFB(onPerfEntry);
   }
