@@ -1,4 +1,3 @@
-import React from "react";
 import "./App.css";
 import { AuthContextProvider } from "./context/AuthContext";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 export function useFetchQuery<T>(docOrCollectionRef?: Query) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<Array<T>>([]);
-  const listenerRef = useRef<Unsubscribe>();
+  const listenerRef = useRef<Unsubscribe>(null);
 
   useEffect(() => {
     if (!docOrCollectionRef) {

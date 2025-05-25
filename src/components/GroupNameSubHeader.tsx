@@ -13,6 +13,7 @@ const GroupNameSubHeaderBase = () => {
         components={{
           strong: (
             <Typography
+              key={"strong"}
               color="primary"
               component={"strong"}
               fontSize="inherit"

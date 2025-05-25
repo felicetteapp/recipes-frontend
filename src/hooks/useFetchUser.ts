@@ -7,7 +7,7 @@ export function useFetchUser() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<IUserOnDatabase | undefined>(undefined);
   const [userUid, setUserUid] = useState<string | false>(false);
-  const listenerRef = useRef<Unsubscribe>();
+  const listenerRef = useRef<Unsubscribe>(null);
 
   const docOrCollectionRef = useMemo(() => {
     if (!userUid) {

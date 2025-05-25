@@ -19,7 +19,7 @@ const AuthContext = createContext<{ user: false | User; loading: boolean }>({
 const AuthContextProviderBase = ({ children }: PropsWithChildren) => {
   const [user, setUser] = useState<false | User>(false);
   const [loading, setLoading] = useState(true);
-  const listenerRef = useRef<Unsubscribe>();
+  const listenerRef = useRef<Unsubscribe>(null);
   const [fetching, userOnDatabase, setUserUid] = useFetchUser();
   const userFetchedOnDatabaseMetadata = userOnDatabase?.metadataUpdated;
 
