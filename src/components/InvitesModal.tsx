@@ -14,6 +14,7 @@ import {
   IconButton,
   List,
   ListItem,
+  ListItemButton,
   ListItemText,
   Stack,
   TextField,
@@ -125,9 +126,9 @@ const InvitesModalBase = ({ open, handleOnClose }: Props) => {
             <CardContent>
               <List disablePadding>
                 {fetchingInvites ? (
-                  <ListItem disabled disableGutters>
+                  <ListItemButton disabled disableGutters>
                     <CircularProgress />
-                  </ListItem>
+                  </ListItemButton>
                 ) : (
                   invites.map(({ to, from, id }) => (
                     <ListItem

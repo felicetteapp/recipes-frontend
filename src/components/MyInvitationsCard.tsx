@@ -8,6 +8,7 @@ import {
   IconButton,
   Icon,
   ListItemText,
+  ListItemButton,
 } from "@mui/material";
 import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -49,9 +50,9 @@ const MyInvitationsCardBase = () => {
           ) : (
             <List disablePadding>
               {invites.length === 0 ? (
-                <ListItem disabled disableGutters>
+                <ListItemButton disabled disableGutters>
                   {t("invite.inviteCount", { count: 0 })}
-                </ListItem>
+                </ListItemButton>
               ) : (
                 invites.map((invite) => (
                   <ListItem
