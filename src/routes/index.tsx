@@ -1,4 +1,4 @@
-import { RouteObject, useRoutes } from "react-router-dom";
+import { type RouteObject, useRoutes } from "react-router-dom";
 import { LoginForm } from "../components/LoginForm";
 import { LoggedRoute } from "./LoggedRoute";
 import { NoLoggedRoute } from "./NoLoggedRoute";

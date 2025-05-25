@@ -1,5 +1,5 @@
 import {
-  PropsWithChildren,
+  type PropsWithChildren,
   createContext,
   memo,
   useContext,
@@ -7,7 +7,12 @@ import {
   useRef,
   useState,
 } from "react";
-import { Unsubscribe, User, getAuth, onAuthStateChanged } from "firebase/auth";
+import {
+  type Unsubscribe,
+  type User,
+  getAuth,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { firebaseApp } from "../services/firebase";
 import { useFetchUser } from "../hooks/useFetchUser";
 

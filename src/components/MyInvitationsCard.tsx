@@ -13,7 +13,7 @@ import {
 import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useFetchQuery } from "../hooks/useFetchQuery";
-import { IInvite } from "../interfaces/IInvite";
+import type { IInvite } from "../interfaces/IInvite";
 import { queryInvites, acceptInvite } from "../services/api/invites.";
 import { useAuthContext } from "../context/AuthContext";
 import { FullScreenSpinner } from "./FullScreenSpinner";

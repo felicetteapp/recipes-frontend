@@ -26,7 +26,7 @@ import {
   editOrCreateIngredient,
 } from "../services/api/ingredients";
 import { useGroup } from "../hooks/useGroup";
-import { IIngredient } from "../interfaces/IIngredient";
+import type { IIngredient } from "../interfaces/IIngredient";
 import { GroupNameSubHeader } from "./GroupNameSubHeader";
 import { generatePath, useMatch, useNavigate } from "react-router-dom";
 

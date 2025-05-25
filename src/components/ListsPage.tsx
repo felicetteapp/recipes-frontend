@@ -22,7 +22,7 @@ import {
   OutlinedInput,
   Paper,
   Select,
-  SelectChangeEvent,
+  type SelectChangeEvent,
   Stack,
   Switch,
   TextField,
@@ -44,8 +44,8 @@ import { RecipesSelect } from "./RecipesSelect";
 import { ListIngredientsSelect } from "./ListIngredientsSelect";
 import { useAppStateContext } from "../context/AppStateContext";
 import { useMonetaryInputState } from "../hooks/useMonetaryInputState";
-import { IIngredient } from "../interfaces/IIngredient";
-import { IRecipe } from "../interfaces/IRecipe";
+import type { IIngredient } from "../interfaces/IIngredient";
+import type { IRecipe } from "../interfaces/IRecipe";
 import { useGroup } from "../hooks/useGroup";
 import { updateGroup } from "../services/api/groups";
 import { GroupNameSubHeader } from "./GroupNameSubHeader";

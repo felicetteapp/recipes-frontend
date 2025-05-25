@@ -1,7 +1,7 @@
-import { Timestamp, Unsubscribe, onSnapshot } from "firebase/firestore";
+import { Timestamp, type Unsubscribe, onSnapshot } from "firebase/firestore";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getUserDoc } from "../services/api/user";
-import { IUserOnDatabase } from "../interfaces/IUserOnDatabase";
+import type { IUserOnDatabase } from "../interfaces/IUserOnDatabase";
 
 export function useFetchUser() {
   const [loading, setLoading] = useState(false);

@@ -17,7 +17,7 @@ import {
 import { memo, useCallback, useMemo, useState } from "react";
 import { useDataContext } from "../context/DataContext";
 import { useTranslation } from "react-i18next";
-import { IIngredient } from "../interfaces/IIngredient";
+import type { IIngredient } from "../interfaces/IIngredient";
 
 interface itemValue {
   quantity: string;

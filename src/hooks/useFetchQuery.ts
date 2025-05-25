@@ -1,4 +1,4 @@
-import { Query, Unsubscribe, onSnapshot } from "firebase/firestore";
+import { Query, type Unsubscribe, onSnapshot } from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
 
 export function useFetchQuery<T>(docOrCollectionRef?: Query) {

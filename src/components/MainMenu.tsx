@@ -1,5 +1,11 @@
 import { Menu, MenuItem, Dialog, DialogTitle } from "@mui/material";
-import { ComponentProps, memo, useCallback, useEffect, useState } from "react";
+import {
+  type ComponentProps,
+  memo,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { LanguageSelectorList } from "./LanguageSelectorList";
 import { useTranslation } from "react-i18next";
 import { signOut, getAuth } from "firebase/auth";

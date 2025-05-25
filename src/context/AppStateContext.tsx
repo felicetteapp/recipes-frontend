@@ -1,8 +1,8 @@
 import { AppBar } from "@mui/material";
 import {
-  ComponentPropsWithoutRef,
-  PropsWithChildren,
-  ReactNode,
+  type ComponentPropsWithoutRef,
+  type PropsWithChildren,
+  type ReactNode,
   createContext,
   memo,
   useCallback,

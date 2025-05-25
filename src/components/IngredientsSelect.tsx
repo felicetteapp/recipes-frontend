@@ -6,9 +6,9 @@ import { useCreate } from "../hooks/useCreate";
 import { Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useGroup } from "../hooks/useGroup";
-import { IIngredient } from "../interfaces/IIngredient";
+import type { IIngredient } from "../interfaces/IIngredient";
 import { editOrCreateIngredient } from "../services/api/ingredients";
-import { GroupBase } from "react-select";
+import type { GroupBase } from "react-select";
 import Select from "react-select/dist/declarations/src/Select";
 
 interface Props {

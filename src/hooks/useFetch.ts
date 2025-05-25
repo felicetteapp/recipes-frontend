@@ -1,4 +1,8 @@
-import { DocumentReference, Unsubscribe, onSnapshot } from "firebase/firestore";
+import {
+  DocumentReference,
+  type Unsubscribe,
+  onSnapshot,
+} from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
 
 export function useFetch<T>(docOrCollectionRef: DocumentReference) {

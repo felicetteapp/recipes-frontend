@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect } from "react";
+import { type PropsWithChildren, useEffect } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import { FullScreenSpinner } from "../components/FullScreenSpinner";
 import { useNavigate } from "react-router-dom";

@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material";
-import { StylesConfig } from "react-select";
+import type { StylesConfig } from "react-select";
 
 export const useReactSelectStyles = <T>() => {
   const theme = useTheme();

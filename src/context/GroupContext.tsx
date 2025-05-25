@@ -2,7 +2,7 @@ import { createContext, memo, useCallback, useEffect, useState } from "react";
 import { useAuthContext } from "./AuthContext";
 import { GroupRegisterPage } from "../components/GroupRegisterPage";
 import { FullScreenSpinner } from "../components/FullScreenSpinner";
-import { IGroup } from "../interfaces/IGroup";
+import type { IGroup } from "../interfaces/IGroup";
 import { getGroupDoc } from "../services/api/groups";
 import { getDoc } from "firebase/firestore";
 

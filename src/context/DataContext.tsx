@@ -1,15 +1,15 @@
 import { doc } from "firebase/firestore";
 import {
-  PropsWithChildren,
+  type PropsWithChildren,
   createContext,
   memo,
   useContext,
   useMemo,
 } from "react";
 import { db } from "../services/firebase";
-import { IGroup } from "../interfaces/IGroup";
-import { IIngredient } from "../interfaces/IIngredient";
-import { IRecipe } from "../interfaces/IRecipe";
+import type { IGroup } from "../interfaces/IGroup";
+import type { IIngredient } from "../interfaces/IIngredient";
+import type { IRecipe } from "../interfaces/IRecipe";
 import { useGroup } from "../hooks/useGroup";
 import { useFetch } from "../hooks/useFetch";
 import { useFetchQuery } from "../hooks/useFetchQuery";

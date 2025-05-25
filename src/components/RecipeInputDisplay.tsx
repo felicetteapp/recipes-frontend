@@ -17,7 +17,7 @@ import { getQuantitiesFromArray } from "../helpers/recipes";
 import { useCreate } from "../hooks/useCreate";
 import { useDelete } from "../hooks/useDelete";
 import { useGroup } from "../hooks/useGroup";
-import { IRecipe } from "../interfaces/IRecipe";
+import type { IRecipe } from "../interfaces/IRecipe";
 import { editOrCreateRecipe, deleteRecipe } from "../services/api/recipes";
 import { IngredientsSelect } from "./IngredientsSelect";
 

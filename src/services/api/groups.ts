@@ -1,6 +1,12 @@
-import { addDoc, collection, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../firebase";
-import { IGroup } from "../../interfaces/IGroup";
+import type { IGroup } from "../../interfaces/IGroup";
 
 export const getGroupDoc = (groupId: string) => doc(db, "groups", groupId);
 
@@ -22,7 +28,6 @@ export const createGroup = async ({
   return await addDoc(collection(db, "groups"), { creatorUid, name });
 };
 
-
-export const deleteGroup = async (groupId:string) => {
+export const deleteGroup = async (groupId: string) => {
   await deleteDoc(getGroupDoc(groupId));
-}
+};

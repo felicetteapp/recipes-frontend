@@ -29,7 +29,7 @@ import {
 } from "../services/api/invites.";
 import { useGroup } from "../hooks/useGroup";
 import { useFetchQuery } from "../hooks/useFetchQuery";
-import { IInvite } from "../interfaces/IInvite";
+import type { IInvite } from "../interfaces/IInvite";
 import { useDelete } from "../hooks/useDelete";
 import { FullScreenSpinner } from "./FullScreenSpinner";
 import { useAuthContext } from "../context/AuthContext";
