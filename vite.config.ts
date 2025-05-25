@@ -6,6 +6,7 @@ import { resolve } from "path";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), viteTsconfigPaths()],
+  publicDir: "public",
   resolve: {
     alias: {
       "@": resolve(__dirname, "./src"),
