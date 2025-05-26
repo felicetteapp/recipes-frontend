@@ -7,7 +7,7 @@ import {
   where,
 } from "firebase/firestore";
 import { db, functions } from "../firebase";
-import { IInvite } from "../../interfaces/IInvite";
+import type { IInvite } from "../../interfaces/IInvite";
 import { httpsCallable } from "firebase/functions";
 
 const getInvitesCollection = () => collection(db, "invites");

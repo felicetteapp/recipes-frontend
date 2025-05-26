@@ -1,6 +1,6 @@
 const { readFileSync, writeFileSync } = require("fs");
 const path = require("path");
-const originalFile = require("../public/locales/en/translation.json");
+const originalFile = require("../locales/en/translation.json");
 const _ = require("underscore");
 
 const translator = require("@parvineyvazov/json-translator");
@@ -16,11 +16,7 @@ const availableLanguages = [
 const currentTranslations = availableLanguages.map((thisLang) => {
   try {
     const redFile = readFileSync(
-      path.resolve(
-        __dirname,
-        "..",
-        `public/locales/${thisLang}/translation.json`
-      )
+      path.resolve(__dirname, "..", `locales/${thisLang}/translation.json`)
     );
 
     const parsedDAta = JSON.parse(redFile);
@@ -65,11 +61,7 @@ const filledData = currentTranslations.map(async ([thisLang, thisLangData]) => {
   const final = fillObject(comparision, translated);
 
   writeFileSync(
-    path.resolve(
-      __dirname,
-      "..",
-      `public/locales/${thisLang}/translation.json`
-    ),
+    path.resolve(__dirname, "..", `locales/${thisLang}/translation.json`),
     JSON.stringify(final, undefined, 1)
   );
   return final;

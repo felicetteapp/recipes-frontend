@@ -1,13 +1,13 @@
-import { Timestamp, Unsubscribe, onSnapshot } from "firebase/firestore";
+import { Timestamp, type Unsubscribe, onSnapshot } from "firebase/firestore";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getUserDoc } from "../services/api/user";
-import { IUserOnDatabase } from "../interfaces/IUserOnDatabase";
+import type { IUserOnDatabase } from "../interfaces/IUserOnDatabase";
 
 export function useFetchUser() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<IUserOnDatabase | undefined>(undefined);
   const [userUid, setUserUid] = useState<string | false>(false);
-  const listenerRef = useRef<Unsubscribe>();
+  const listenerRef = useRef<Unsubscribe>(null);
 
   const docOrCollectionRef = useMemo(() => {
     if (!userUid) {

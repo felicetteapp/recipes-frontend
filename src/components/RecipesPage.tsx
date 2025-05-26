@@ -12,7 +12,7 @@ import { useDataContext } from "../context/DataContext";
 import { useTranslation } from "react-i18next";
 import { RecipesList } from "./RecipesList";
 import { useAppStateContext } from "../context/AppStateContext";
-import { IRecipe } from "../interfaces/IRecipe";
+import type { IRecipe } from "../interfaces/IRecipe";
 import { useGroup } from "../hooks/useGroup";
 import { updateGroup } from "../services/api/groups";
 import { RecipeInputDisplay } from "./RecipeInputDisplay";

@@ -1,5 +1,5 @@
 import {
-  PropsWithChildren,
+  type PropsWithChildren,
   createContext,
   memo,
   useContext,
@@ -7,7 +7,12 @@ import {
   useRef,
   useState,
 } from "react";
-import { Unsubscribe, User, getAuth, onAuthStateChanged } from "firebase/auth";
+import {
+  type Unsubscribe,
+  type User,
+  getAuth,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { firebaseApp } from "../services/firebase";
 import { useFetchUser } from "../hooks/useFetchUser";
 
@@ -19,7 +24,7 @@ const AuthContext = createContext<{ user: false | User; loading: boolean }>({
 const AuthContextProviderBase = ({ children }: PropsWithChildren) => {
   const [user, setUser] = useState<false | User>(false);
   const [loading, setLoading] = useState(true);
-  const listenerRef = useRef<Unsubscribe>();
+  const listenerRef = useRef<Unsubscribe>(null);
   const [fetching, userOnDatabase, setUserUid] = useFetchUser();
   const userFetchedOnDatabaseMetadata = userOnDatabase?.metadataUpdated;
 

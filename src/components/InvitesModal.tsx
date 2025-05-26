@@ -14,6 +14,7 @@ import {
   IconButton,
   List,
   ListItem,
+  ListItemButton,
   ListItemText,
   Stack,
   TextField,
@@ -28,7 +29,7 @@ import {
 } from "../services/api/invites.";
 import { useGroup } from "../hooks/useGroup";
 import { useFetchQuery } from "../hooks/useFetchQuery";
-import { IInvite } from "../interfaces/IInvite";
+import type { IInvite } from "../interfaces/IInvite";
 import { useDelete } from "../hooks/useDelete";
 import { FullScreenSpinner } from "./FullScreenSpinner";
 import { useAuthContext } from "../context/AuthContext";
@@ -125,9 +126,9 @@ const InvitesModalBase = ({ open, handleOnClose }: Props) => {
             <CardContent>
               <List disablePadding>
                 {fetchingInvites ? (
-                  <ListItem disabled disableGutters>
+                  <ListItemButton disabled disableGutters>
                     <CircularProgress />
-                  </ListItem>
+                  </ListItemButton>
                 ) : (
                   invites.map(({ to, from, id }) => (
                     <ListItem

@@ -11,7 +11,7 @@ import {
   ListItemButton,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { IRecipe } from "../interfaces/IRecipe";
+import type { IRecipe } from "../interfaces/IRecipe";
 
 interface Props {
   onEditClick: (item: IRecipe) => void;

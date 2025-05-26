@@ -18,8 +18,8 @@ import { useDataContext } from "../context/DataContext";
 import { IngredientsSelect } from "./IngredientsSelect";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import Select from "react-select/dist/declarations/src/Select";
-import { IIngredient } from "../interfaces/IIngredient";
-import { GroupBase } from "react-select";
+import type { IIngredient } from "../interfaces/IIngredient";
+import type { GroupBase } from "react-select";
 
 const getQuantityObject = (list: Array<{ q: string; i: string }>) => {
   const object: Record<string, string> = {};

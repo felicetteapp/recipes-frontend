@@ -22,7 +22,7 @@ import {
   OutlinedInput,
   Paper,
   Select,
-  SelectChangeEvent,
+  type SelectChangeEvent,
   Stack,
   Switch,
   TextField,
@@ -44,8 +44,8 @@ import { RecipesSelect } from "./RecipesSelect";
 import { ListIngredientsSelect } from "./ListIngredientsSelect";
 import { useAppStateContext } from "../context/AppStateContext";
 import { useMonetaryInputState } from "../hooks/useMonetaryInputState";
-import { IIngredient } from "../interfaces/IIngredient";
-import { IRecipe } from "../interfaces/IRecipe";
+import type { IIngredient } from "../interfaces/IIngredient";
+import type { IRecipe } from "../interfaces/IRecipe";
 import { useGroup } from "../hooks/useGroup";
 import { updateGroup } from "../services/api/groups";
 import { GroupNameSubHeader } from "./GroupNameSubHeader";
@@ -302,6 +302,7 @@ const ListsPageBase = () => {
               components={{
                 strongUsed: (
                   <Typography
+                    key={"strongUsed"}
                     color="primary"
                     fontWeight="bolder"
                     component={"strong"}
@@ -309,6 +310,7 @@ const ListsPageBase = () => {
                 ),
                 strong: (
                   <Typography
+                    key={"strong"}
                     color="secondary"
                     fontWeight="bolder"
                     component={"strong"}
@@ -327,6 +329,7 @@ const ListsPageBase = () => {
               components={{
                 strong: (
                   <Typography
+                    key={"strong"}
                     color={
                       budget - currentListPrice >= 9
                         ? theme.palette.success.light
@@ -768,6 +771,7 @@ const IngredientsListFromRecipesBase = () => {
                                     components={{
                                       small: (
                                         <Typography
+                                          key={`small_${q}_${u}`}
                                           color="grey.400"
                                           component="small"
                                           fontSize="inherit"
@@ -775,6 +779,7 @@ const IngredientsListFromRecipesBase = () => {
                                       ),
                                       strong: (
                                         <Typography
+                                          key={`strong_${q}_${u}`}
                                           fontWeight="bolder"
                                           color="primary"
                                           component="strong"
@@ -909,6 +914,7 @@ const IngredientsListFromRecipesBase = () => {
                               components={{
                                 small: (
                                   <Typography
+                                    key={`small_${q}_${u}`}
                                     color="grey.400"
                                     component="small"
                                     fontSize="inherit"
@@ -916,6 +922,7 @@ const IngredientsListFromRecipesBase = () => {
                                 ),
                                 strong: (
                                   <Typography
+                                    key={`strong_${q}_${u}`}
                                     fontWeight="bolder"
                                     color="primary"
                                     component="strong"

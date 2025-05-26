@@ -1,6 +1,13 @@
-import { collection, deleteDoc, doc, orderBy, query, setDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  orderBy,
+  query,
+  setDoc,
+} from "firebase/firestore";
 import { getGroupDoc } from "./groups";
-import { IRecipe } from "../../interfaces/IRecipe";
+import type { IRecipe } from "../../interfaces/IRecipe";
 
 const getRecipesCollection = (groupId: string) =>
   collection(getGroupDoc(groupId), "recipes");
@@ -30,7 +37,6 @@ export const deleteRecipe = async (groupId: string, ingredientId: string) => {
   return;
 };
 
-
-export const queryRecipes = (groupId:string) =>{
+export const queryRecipes = (groupId: string) => {
   return query(getRecipesCollection(groupId), orderBy("name"));
-}
+};

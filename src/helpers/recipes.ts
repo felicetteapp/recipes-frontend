@@ -1,4 +1,4 @@
-import { IRecipe } from "../interfaces/IRecipe";
+import type { IRecipe } from "../interfaces/IRecipe";
 
 export const getQuantitiesFromArray = (array: IRecipe["ingredients"]) => {
   const quantities: Record<string, string> = {};

@@ -1,7 +1,8 @@
 import { AppBar } from "@mui/material";
 import {
-  ComponentPropsWithoutRef,
-  PropsWithChildren,
+  type ComponentPropsWithoutRef,
+  type PropsWithChildren,
+  type ReactNode,
   createContext,
   memo,
   useCallback,
@@ -14,15 +15,15 @@ type colorProp = ComponentPropsWithoutRef<typeof AppBar>["color"];
 interface AppStateContextValue {
   title: string;
   color: colorProp;
-  action: null | JSX.Element;
-  backButton: null | JSX.Element;
+  action: null | ReactNode;
+  backButton: null | ReactNode;
   disableMenu: boolean;
   disableBottomNavigation: boolean;
   clearState: () => void;
   setTitle: (title: string) => void;
   setColor: (color: colorProp) => void;
-  setAction: (newAction: null | JSX.Element) => void;
-  setBackButton: (newBackButton: null | JSX.Element) => void;
+  setAction: (newAction: null | ReactNode) => void;
+  setBackButton: (newBackButton: null | ReactNode) => void;
   setDisableMenu: (newState: boolean) => void;
   setDisableBottomNavigation: (newState: boolean) => void;
 }
@@ -49,12 +50,12 @@ export const AppStateContext =
 const AppStateContextProviderBase = ({ children }: PropsWithChildren) => {
   const [title, setTitle] = useState(initialValue.title);
   const [color, setColor] = useState<colorProp>(initialValue.color);
-  const [action, setAction] = useState<null | JSX.Element>(initialValue.action);
+  const [action, setAction] = useState<null | ReactNode>(initialValue.action);
   const [disableMenu, setDisableMenu] = useState(initialValue.disableMenu);
   const [disableBottomNavigation, setDisableBottomNavigation] = useState(
     initialValue.disableBottomNavigation
   );
-  const [backButton, setBackButton] = useState<null | JSX.Element>(
+  const [backButton, setBackButton] = useState<null | ReactNode>(
     initialValue.backButton
   );
 

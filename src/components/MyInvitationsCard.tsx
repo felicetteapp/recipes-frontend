@@ -8,11 +8,12 @@ import {
   IconButton,
   Icon,
   ListItemText,
+  ListItemButton,
 } from "@mui/material";
 import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useFetchQuery } from "../hooks/useFetchQuery";
-import { IInvite } from "../interfaces/IInvite";
+import type { IInvite } from "../interfaces/IInvite";
 import { queryInvites, acceptInvite } from "../services/api/invites.";
 import { useAuthContext } from "../context/AuthContext";
 import { FullScreenSpinner } from "./FullScreenSpinner";
@@ -49,9 +50,9 @@ const MyInvitationsCardBase = () => {
           ) : (
             <List disablePadding>
               {invites.length === 0 ? (
-                <ListItem disabled disableGutters>
+                <ListItemButton disabled disableGutters>
                   {t("invite.inviteCount", { count: 0 })}
-                </ListItem>
+                </ListItemButton>
               ) : (
                 invites.map((invite) => (
                   <ListItem
