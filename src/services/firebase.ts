@@ -1,12 +1,13 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import { FirebaseOptions, initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getFunctions } from "firebase/functions";
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
+const firebaseConfig: FirebaseOptions = {
   apiKey: import.meta.env.VITE_F_API_KEY,
   authDomain: import.meta.env.VITE_F_AUTH_DOMAIN,
   projectId: import.meta.env.VITE_F_PROJECT_ID,
@@ -19,3 +20,11 @@ const firebaseConfig = {
 export const firebaseApp = initializeApp(firebaseConfig);
 export const db = getFirestore(firebaseApp);
 export const functions = getFunctions(firebaseApp);
+
+
+export const appCheck = initializeAppCheck(firebaseApp, {
+  provider: new ReCaptchaV3Provider(
+    import.meta.env.VITE_F_RECAPTCHA_SITEKEY
+  ),
+  isTokenAutoRefreshEnabled: true
+});
